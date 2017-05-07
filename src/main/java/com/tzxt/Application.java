@@ -23,7 +23,7 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
     @RequestMapping("/")
-    String home() {
-        return "redirect:home";
+    String login() {
+        return "redirect:login";
     }
 }

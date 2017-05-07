@@ -1,0 +1,41 @@
+server:
+    port: 9090
+    context-path: #/liuzh/
+
+logging:
+    level:
+        tk.mybatis: TRACE
+
+druid:
+    url: jdbc:mysql://127.0.0.1:3306/tzxt
+    username: root
+    password: anywhere
+    initial-size: 1
+    min-idle: 1
+    max-active: 20
+    test-on-borrow: true
+
+spring:
+    mvc:
+        view:
+            prefix: /templates/
+            suffix: .ftl
+    freemarker:
+        cache: false
+        request-context-attribute: request
+
+
+mybatis:
+    type-aliases-package: com.tzxt.model
+    mapper-locations: classpath:mapper/*.xml
+
+mapper:
+    mappers: com.tzxt.util.MyMapper
+    not-empty: false
+    identity: MYSQL
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
