@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tzxt.mapper.LedgerMapper">
+    <sql id="tab">
+          `ledger`
+    </sql>
+    <sql id="cols">
+        `id`, `name`, `comment`, `create_at`, `update_at`
+    </sql>
+    <select id="selectByParams" parameterType="string" resultType="Ledger">
+        SELECT <include refid="cols"/> FROM <include refid="tab"/> WHERE 1=1 <if test="name!=null and name.length()>0">AND `name` like CONCAT('%', #{name}, '%') </if>
+    </select>
+</mapper>

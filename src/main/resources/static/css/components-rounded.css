@@ -4892,6 +4892,7 @@ Portlets
 
 /* Light Portlet */
 .portlet.light {
+  min-height: 400px;
   padding: 12px 20px 15px 20px;
   background-color: #fff;
 }

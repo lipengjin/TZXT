@@ -1940,6 +1940,7 @@ Page content
   /* 992px */
   /* Page content */
   .page-content-wrapper {
+    margin-bottom: 40px;
     float: left;
     width: 100%;
   }
@@ -2035,6 +2036,7 @@ Page content
 Page footer
 ***/
 .page-footer {
+  background: white;
   padding: 5px 20px 10px 20px;
   font-size: 13px;
   height: 33px;

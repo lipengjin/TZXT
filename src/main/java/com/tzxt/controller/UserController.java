@@ -24,8 +24,12 @@
 
 package com.tzxt.controller;
 
+import com.tzxt.model.User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author liuzh
@@ -34,4 +38,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+
+    @PostMapping(value = "/register")
+    public ModelAndView register(User user) {
+        ModelAndView result = new ModelAndView("redirect:/login");
+        result.addObject("currUser", new User());
+        return result;
+    }
+
+    @PostMapping(value = "/create")
+    public ModelAndView createUser(User user) {
+
+        return null;
+    }
+
+    /**
+     * 查看个人详细信息
+     *
+     * @return
+     */
+    @GetMapping(value = "profile")
+    public ModelAndView user() {
+        ModelAndView result = new ModelAndView("/user/user_profile");
+        result.addObject("currUser", new User());
+        return result;
+    }
 }

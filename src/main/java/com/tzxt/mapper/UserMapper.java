@@ -32,4 +32,5 @@ import com.tzxt.model.User;
  * @since 2016-01-22 22:17
  */
 public interface UserMapper extends MyMapper<User> {
+    User selectByName(String userName);
 }

@@ -46,6 +46,8 @@ public class User {
     private Long id;
     private String userName;
     private String password;
+    private String email;
+    private String phone;
 
     private String realName;
     /**
@@ -63,7 +65,7 @@ public class User {
     /**
      * 权限
      */
-    private Integer auth;
+    private Integer auth = Auth.SELECT.getValue();
 
     /**
      * 是否锁定
@@ -74,14 +76,14 @@ public class User {
     private Date updateAt;
 
     enum Auth {
-        select(1,"数据查询"), load(2, "数据录入");
+        SELECT(1, "数据查询"), LOAD(2, "数据录入");
 
         private Integer value;
         private String display;
 
         Auth(Integer value, String display) {
-            this.value= value;
-            this.display =display;
+            this.value = value;
+            this.display = display;
         }
 
         public Integer getValue() {
