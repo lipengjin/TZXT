@@ -5,7 +5,7 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <#include "../components/sider.ftl" />
+<#include "../components/sider.ftl" />
     <#include "content.ftl" />
 </div>
 <!-- END CONTAINER -->
@@ -48,15 +48,17 @@
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/index3.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/tasks.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/time.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         Metronic.init(); // init metronic core componets
         Layout.init(); // init layout
         Demo.init(); // init demo features
         QuickSidebar.init(); // init quick sidebar
         Index.init(); // init index page
         Tasks.initDashboardWidget(); // init tash dashboard widget
+        ShowTime.initTime();
     });
 </script>
 <!-- END JAVASCRIPTS -->

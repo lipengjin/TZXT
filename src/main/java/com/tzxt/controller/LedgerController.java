@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.tzxt.dto.LedgerDetail;
 import com.tzxt.model.Ledger;
 import com.tzxt.service.LedgerService;
+import com.tzxt.util.CurrentUser;
 import com.tzxt.util.ResponseHelper;
 import org.assertj.core.util.Maps;
 import org.springframework.stereotype.Controller;
@@ -47,6 +48,7 @@ public class LedgerController {
 
         ModelAndView result = new ModelAndView("/ledger_manage/ledger");
         result.addObject("ledgerPage", ledgers);
+        result.addObject("currUser", CurrentUser.get());
         return result;
     }
 
@@ -61,6 +63,7 @@ public class LedgerController {
 
         // 2. 重定向 到新建页面
         ModelAndView result = new ModelAndView("/ledger_manage/new_ledger");
+        result.addObject("currUser", CurrentUser.get());
         return result;
     }
 
@@ -73,6 +76,7 @@ public class LedgerController {
 
         // 重定向到 台账详情 页面
         ModelAndView result = new ModelAndView("/ledger_manage/ledger_detail");
+        result.addObject("currUser", CurrentUser.get());
         return result;
     }
 
@@ -87,6 +91,7 @@ public class LedgerController {
 
         // 重定向 到 台账详情 页面
         ModelAndView result = new ModelAndView("/ledger_manage/ledger_detail");
+        result.addObject("currUser", CurrentUser.get());
         return result;
     }
 
@@ -100,6 +105,7 @@ public class LedgerController {
     public ModelAndView delete(@PathVariable Long ledgerId){
 
         ModelAndView result = new ModelAndView("");
+        result.addObject("currUser", CurrentUser.get());
 
         return result;
     }

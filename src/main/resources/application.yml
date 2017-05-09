@@ -28,6 +28,8 @@ spring:
 mybatis:
     type-aliases-package: com.tzxt.model
     mapper-locations: classpath:mapper/*.xml
+    configuration:
+      map-underscore-to-camel-case: true
 
 mapper:
     mappers: com.tzxt.util.MyMapper

@@ -28,4 +28,9 @@ public class LedgerDictionary {
     private String fieldName;
     private String fieldType;
     private String comment;
+
+    /**
+     * 类型 长度
+     */
+    private Integer length;
 }

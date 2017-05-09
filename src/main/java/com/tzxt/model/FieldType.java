@@ -26,8 +26,4 @@ public class FieldType {
     private String type;
     private String display;
 
-    /**
-     * 类型 长度
-     */
-    private Integer length;
 }

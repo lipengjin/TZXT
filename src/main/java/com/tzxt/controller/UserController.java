@@ -25,6 +25,7 @@
 package com.tzxt.controller;
 
 import com.tzxt.model.User;
+import com.tzxt.util.CurrentUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +62,7 @@ public class UserController {
     @GetMapping(value = "profile")
     public ModelAndView user() {
         ModelAndView result = new ModelAndView("/user/user_profile");
-        result.addObject("currUser", new User());
+        result.addObject("currUser", CurrentUser.get());
         return result;
     }
 }

@@ -4,7 +4,7 @@
     <div class="page-header-inner">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="javascript:void(0);">
+            <a href="${request.contextPath}/home">
                 <img src="${request.contextPath}/static/images/logo-light.png" alt="logo" class="logo-default"/>
             </a>
             <div class="menu-toggler sidebar-toggler">
@@ -41,8 +41,9 @@
                     <li class="dropdown dropdown-user dropdown-dark">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                            data-close-others="true">
-						<span class="username username-hide-on-mobile">
-						Nick </span>
+                            <#if currUser??>
+                                <span class="username username-hide-on-mobile"><#if currUser.userName??>${currUser.userName}</#if> </span>
+                            </#if>
                             <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                             <img alt="" class="img-circle" src="${request.contextPath}/static/images/avatar9.jpg"/>
                         </a>
@@ -62,12 +63,6 @@
                                     <i class="icon-key"></i> 退出 </a>
                             </li>
                         </ul>
-                    </li>
-                    <!-- END USER LOGIN DROPDOWN -->
-                    <!-- BEGIN USER LOGIN DROPDOWN -->
-                    <li class="dropdown dropdown-extended quick-sidebar-toggler">
-                        <span class="sr-only">Toggle Quick Sidebar</span>
-                        <i class="icon-logout"></i>
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
                 </ul>

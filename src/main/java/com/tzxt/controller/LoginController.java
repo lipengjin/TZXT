@@ -49,7 +49,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.setAttribute(Constants.SESSION_USER_ID, user.getId().toString());
         // 返回模型视图
-        ModelAndView result = new ModelAndView("redirect:/home");
+        ModelAndView result = new ModelAndView("index/index");
         result.addObject("currUser", user);
 
         return result;
@@ -71,8 +71,8 @@ public class LoginController {
             throw new RestException(HttpStatus.FORBIDDEN, "密码错误");
         }
         // 返回模型视图
-        ModelAndView result = new ModelAndView("redirect:/home");
-        result.addObject("currUser", new User());
+        ModelAndView result = new ModelAndView("index/index");
+        result.addObject("currUser", CurrentUser.get());
 
         return result;
     }

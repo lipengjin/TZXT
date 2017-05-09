@@ -37,13 +37,11 @@
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/table-editable.js"></script>
 <script>
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Demo.init(); // init demo features
-        TableEditable.init();
     });
 </script>
 </body>
