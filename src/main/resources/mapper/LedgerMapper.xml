@@ -5,7 +5,7 @@
           `ledger`
     </sql>
     <sql id="cols">
-        `id`, `name`, `comment`, `create_at`, `update_at`
+        `id`, `name`, `source_table`, `comment`, `create_at`, `update_at`
     </sql>
     <select id="selectByParams" parameterType="string" resultType="Ledger">
         SELECT <include refid="cols"/> FROM <include refid="tab"/> WHERE 1=1 <if test="name!=null and name.length()>0">AND `name` like CONCAT('%', #{name}, '%') </if>

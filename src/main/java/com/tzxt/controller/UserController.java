@@ -25,6 +25,7 @@
 package com.tzxt.controller;
 
 import com.tzxt.model.User;
+import com.tzxt.util.AccountType;
 import com.tzxt.util.CurrentUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,8 +62,12 @@ public class UserController {
      */
     @GetMapping(value = "profile")
     public ModelAndView user() {
-        ModelAndView result = new ModelAndView("/user/user_profile");
-        result.addObject("currUser", CurrentUser.get());
+        // 根据 用户 的角色 返回不同的界面
+        User user = CurrentUser.get();
+        ModelAndView result = AccountType.ADMIN.getValue().equals(user.getAccountType()) ?
+                new ModelAndView("/user/user_profile") :
+                new ModelAndView("/user/ordinary_user_profile");
+        result.addObject("currUser", user);
         return result;
     }
 }

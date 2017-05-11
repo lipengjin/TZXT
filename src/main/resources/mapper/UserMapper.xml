@@ -5,7 +5,7 @@
         `user`
     </sql>
     <sql id="cols">
-        `id`, `user_name`, `password`, `real_name`, `unit_id`, `unit`, `role_id`, `role`, `auth`, `locked`, `create_at`, `update_at`
+        `id`, `user_name`, `password`, `real_name`, `unit_id`, `unit`, `account_type`, `role_id`, `role`, `auth`, `locked`, `create_at`, `update_at`
     </sql>
     <select id="selectByName" parameterType="string" resultType="User">
         SELECT <include refid="cols"/> FROM <include refid="tab"/> WHERE `user_name`=#{userName}

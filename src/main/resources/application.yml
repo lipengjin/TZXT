@@ -1,6 +1,8 @@
 server:
     port: 9090
-    context-path: #/liuzh/
+    context-path:
+    session:
+      timeout: 18000 #/liuzh/
 
 logging:
     level:

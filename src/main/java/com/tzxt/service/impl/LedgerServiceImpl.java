@@ -46,4 +46,54 @@ public class LedgerServiceImpl implements LedgerService {
             return Response.fail("分页查询台账列表失败");
         }
     }
+
+    /**
+     * 根据 id 查询 台账
+     *
+     * @param ledgerId
+     * @return
+     */
+    @Override
+    public Response<Ledger> getById(Long ledgerId) {
+        try {
+            return Response.ok(ledgerMapper.selectByPrimaryKey(ledgerId));
+        } catch (Exception e) {
+            logger.error("get ledger by id failed. id:{}, cause:{}", ledgerId, Throwables.getStackTraceAsString(e));
+            return Response.fail("根据ID获取台账失败");
+        }
+    }
+
+    /**
+     * 创建一个 台账
+     *
+     * @param ledger
+     * @return
+     */
+    @Override
+    public Response<Ledger> create(Ledger ledger) {
+        try {
+            ledgerMapper.insertSelective(ledger);
+            return Response.ok(ledger);
+        } catch (Exception e) {
+            logger.error("create ledger failed. ledger:{}, cause:{}", ledger, Throwables.getStackTraceAsString(e));
+            return Response.fail("创建台账失败");
+        }
+    }
+
+    /**
+     * 更新 台账
+     *
+     * @param ledger
+     * @return
+     */
+    @Override
+    public Response<Boolean> update(Ledger ledger) {
+        try {
+            ledgerMapper.updateByPrimaryKeySelective(ledger);
+            return Response.ok(Boolean.TRUE);
+        } catch (Exception e) {
+            logger.error("update ledger failed. ledger:{}, cause:{}", ledger, Throwables.getStackTraceAsString(e));
+            return Response.fail("更新台账失败");
+        }
+    }
 }

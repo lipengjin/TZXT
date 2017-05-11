@@ -4,6 +4,7 @@ import com.tzxt.dto.LoginUser;
 import com.tzxt.exception.RestException;
 import com.tzxt.model.User;
 import com.tzxt.service.UserService;
+import com.tzxt.util.AccountType;
 import com.tzxt.util.Constants;
 import com.tzxt.util.CurrentUser;
 import com.tzxt.util.MD5;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final UserService userService;
+
     public LoginController(UserService userService) {
         this.userService = userService;
     }
@@ -37,31 +39,40 @@ public class LoginController {
     }
 
     @GetMapping(value = {"", "/login"})
-    public String login(){
+    public String login() {
         return "login/login";
     }
 
+    /**
+     * 切换到 普通用户 登录
+     *
+     * @return
+     */
+    @GetMapping("/ordinaryLogin")
+    public String ordinaryLogin() {
+        return "login/ordinary_login";
+    }
+
     @PostMapping(value = "/validate")
-    public ModelAndView validate(HttpServletRequest request, LoginUser loginUser) {
+    public String validate(HttpServletRequest request, LoginUser loginUser) {
         // 用户密码验证
         User user = ResponseHelper.getOrThrow(userService.validate(loginUser));
         // 写入 session
         HttpSession session = request.getSession();
         session.setAttribute(Constants.SESSION_USER_ID, user.getId().toString());
-        // 返回模型视图
-        ModelAndView result = new ModelAndView("index/index");
-        result.addObject("currUser", user);
 
-        return result;
+        // 重定向到 主页
+        return AccountType.ADMIN.getValue().equals(loginUser.getAccountType()) ?  "redirect:/home" : "redirect:/ordinaryHome";
     }
 
     /**
      * 锁屏情况下 验证 密码
+     *
      * @param password
      * @return
      */
     @PostMapping("reValidate")
-    public ModelAndView reValidate(String password) {
+    public String reValidate(String password) {
         // 验证密码
         User user = CurrentUser.get();
         if (user == null) {
@@ -70,26 +81,23 @@ public class LoginController {
         if (!user.getPassword().equals(MD5.encode(password))) {
             throw new RestException(HttpStatus.FORBIDDEN, "密码错误");
         }
-        // 返回模型视图
-        ModelAndView result = new ModelAndView("index/index");
-        result.addObject("currUser", CurrentUser.get());
 
-        return result;
+        // 重定向到主页
+        return AccountType.ADMIN.getValue().equals(user.getAccountType()) ? "redirect:/home" : "redirect:/ordinaryHome";
     }
 
     @GetMapping(value = "/logout")
-    public ModelAndView logout(HttpServletRequest request) {
+    public String logout(HttpServletRequest request) {
         // 用户下线
+        User user = CurrentUser.get();
         // 0. 取出 session 中存放的 userId， 判断不为 null 就进行 logout 操作，否则不做操作
         HttpSession session = request.getSession(false);
         if (session != null) {
             // 1. 清空 session
             session.invalidate();
         }
-        // 返回模型视图  重定向到登录界面
-        ModelAndView result = new ModelAndView("redirect:/");
-        result.addObject("currUser", new User());
+        // 重定向到登录界面
 
-        return result;
+        return AccountType.ADMIN.getValue().equals(user.getAccountType()) ? "redirect:/":"redirect:/ordinaryLogin";
     }
 }

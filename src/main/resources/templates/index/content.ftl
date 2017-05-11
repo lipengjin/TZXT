@@ -16,13 +16,10 @@
                         <div class="row list-separated">
                             <div class="col-md-3 col-sm-3 col-xs-3 col-md-offset-3">
                                 <div class="font-grey-mint font-lg margin-bottom-20">
-                                    欢迎使用！
-                                </div>
-                                <div class="font-yellow font-lg margin-bottom-20">
-                                    <div id="currentTime">2017-5-9 21:14:39</div>
-                                </div>
-                                <div class="font-grey-mint font-lg margin-bottom-20">
-                                    IP Address： xxxxxx
+                                <#if currUser??>
+                                    <span class="username username-hide-on-mobile"><#if currUser.userName??>${currUser.userName},</#if> </span>
+                                </#if>
+                                    欢迎您！
                                 </div>
                             </div>
                         </div>

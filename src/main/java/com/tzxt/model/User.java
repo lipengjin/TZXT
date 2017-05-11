@@ -57,6 +57,11 @@ public class User {
     private String unit;
 
     /**
+     * 账号 类型
+     */
+    private Integer accountType;
+
+    /**
      * 角色
      */
     private Long roleId;

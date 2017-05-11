@@ -32,18 +32,21 @@
 <script type="text/javascript" src="${request.contextPath}/static/js/select2.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="${request.contextPath}/static/js/jquery.validate.min.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/table-editable.js"></script>
+<script src="${request.contextPath}/static/js/new_ledger_validate.js"></script>
 <script>
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Demo.init(); // init demo features
         TableEditable.init();
+        NewLedgerValidate.init();
     });
 </script>
 </body>

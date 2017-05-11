@@ -5,7 +5,7 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-<#include "../components/sider.ftl" />
+<#include "sider.ftl" />
     <#include "content.ftl" />
 </div>
 <!-- END CONTAINER -->

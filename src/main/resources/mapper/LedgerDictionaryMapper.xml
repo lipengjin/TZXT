@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tzxt.mapper.LedgerDictionaryMapper">
+    <sql id="tab">
+          `ledger_dictionary`
+    </sql>
+    <sql id="cols">
+        `id`, `ledger_id`, `ld_index`, `field_name`, `field_type`, `length`, `source_field`, `ld_comment`, `create_at`, `update_at`
+    </sql>
+    <select id="selectByLedgerId" parameterType="long" resultType="LedgerDictionary">
+        SELECT <include refid="cols"/> FROM <include refid="tab"/> WHERE `ledger_id`=#{ledgerId}
+    </select>
+</mapper>

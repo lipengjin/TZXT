@@ -5,6 +5,7 @@ import com.tzxt.dto.LoginUser;
 import com.tzxt.mapper.UserMapper;
 import com.tzxt.model.User;
 import com.tzxt.service.UserService;
+import com.tzxt.util.AccountType;
 import com.tzxt.util.MD5;
 import com.tzxt.util.Response;
 import org.slf4j.Logger;
@@ -37,6 +38,12 @@ public class UserServiceImpl implements UserService {
             User user = userMapper.selectByName(loginUser.getUserName());
             if (user == null) {
                 return Response.fail("该用户不存在");
+            }
+            if (!loginUser.getAccountType().equals(user.getAccountType())) {
+                if (AccountType.ADMIN.getValue().equals(user.getAccountType()))
+                    return Response.fail("您是管理员，请切换到管理员登录界面登录");
+                else
+                    return Response.fail("您是普通用户，请切换到普通用户界面登录");
             }
             if (!user.getPassword().equals(MD5.encode(loginUser.getPassword()))) {
                 return Response.fail("用户密码错误");

@@ -17,7 +17,7 @@
                     </div>
                     <div class="portlet-body form">
                         <form role="form" class="form-horizontal" action="${request.contextPath}/ledger/save"
-                              method="post">
+                              method="post" id="new_ledger_form">
                             <div class="form-body">
                                 <h4>台账 名称和简介</h4>
                                 <div class="form-group">
@@ -28,10 +28,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="inputPassword12" class="col-md-2 control-label">原始表关联</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="ledger.sourceTable"
+                                               placeholder="Source table related" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="inputPassword12" class="col-md-2 control-label">台账简介</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="ledger.comment"
-                                               placeholder="edger comment" value="">
+                                               placeholder="Ledger comment" value="">
                                     </div>
                                 </div>
                                 <hr>
@@ -77,7 +84,7 @@
                                 </table>
                             </div>
                             <div class="form-actions right">
-                                <button type="button" class="btn default">取消</button>
+                                <a type="button" class="btn default" href="${request.contextPath}/ledger">取消</a>
                                 <button type="submit" class="btn blue">提交新建</button>
                             </div>
                         </form>

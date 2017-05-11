@@ -49,8 +49,6 @@ var TableManaged = function () {
             }, {
                 "orderable": false
             }, {
-                "orderable": true
-            }, {
                 "orderable": false
             }],
             "lengthMenu": [
@@ -69,7 +67,27 @@ var TableManaged = function () {
             }],
             "order": [
                 [1, "asc"]
-            ] // set first column as a default sort by asc
+            ], // set first column as a default sort by asc
+
+            // 设置 ajax 动态加载数据 分页...
+            "processing": true,
+            "serverSide": true,
+            "ajax": function (data, callback, settings) {
+                $.ajax({
+                    type: 'post',
+                    url: '',
+                    dataType: 'json',
+                    data: {
+                        "param":JSON.stringify(data)
+                    },
+                    success: function (result) {
+                        callback(result)
+                    },
+                    error: function (error) {
+
+                    }
+                });
+            }
         });
 
         var tableWrapper = jQuery('#sample_1_wrapper');

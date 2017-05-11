@@ -23,8 +23,8 @@ var TableEditable = function () {
             var aData = oTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[0].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[0] + '" disabled>';
-            jqTds[1].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[1] + '">';
-            jqTds[2].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[2] + '">';
+            jqTds[1].innerHTML = '<input type="text" name="fieldNameTmp" class="form-control input-small" value="' + aData[1] + '">';
+            jqTds[2].innerHTML = '<input type="text" name="fieldTypeTmp" class="form-control input-small" value="' + aData[2] + '">';
             jqTds[3].innerHTML = '<input type="number" class="form-control input-small" value="' + aData[3] + '">';
             jqTds[4].innerHTML = '<input type="text" class="form-control input-small" value="' + aData[4] + '">';
             jqTds[5].innerHTML = '<a class="edit" href="">保存</a>';
@@ -39,8 +39,8 @@ var TableEditable = function () {
             var jqTds = $('>td', nRow);
             var jqInputs = $('input', nRow);
             jqTds[0].innerHTML = '<input type="text" class="form-control input-small" value="' + jqInputs[0].value + '" disabled>';
-            jqTds[1].innerHTML = '<input type="text" class="form-control input-small" value="' + jqInputs[1].value + '">';
-            jqTds[2].innerHTML = '<input type="text" class="form-control input-small" value="' + jqInputs[2].value + '">';
+            jqTds[1].innerHTML = '<input type="text" name="fieldNameTmp" class="form-control input-small" value="' + jqInputs[1].value + '">';
+            jqTds[2].innerHTML = '<input type="text" name="fieldTypeTmp" class="form-control input-small" value="' + jqInputs[2].value + '">';
             jqTds[3].innerHTML = '<input type="number" class="form-control input-small" value="' + jqInputs[3].value + '">';
             jqTds[4].innerHTML = '<input type="text" class="form-control input-small" value="' + jqInputs[4].value + '">';
             jqTds[5].innerHTML = '<a class="edit" href="">保存</a>';
@@ -55,11 +55,11 @@ var TableEditable = function () {
          */
         function saveRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
-            oTable.fnUpdate('<input type="text" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].index" value="' + jqInputs[0].value + '" readonly>', nRow, 0, false);
+            oTable.fnUpdate('<input type="text" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].ldIndex" value="' + jqInputs[0].value + '" readonly>', nRow, 0, false);
             oTable.fnUpdate('<input type="text" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].fieldName" value="' + jqInputs[1].value + '" readonly>', nRow, 1, false);
             oTable.fnUpdate('<input type="text" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].fieldType" value="' + jqInputs[2].value + '" readonly>', nRow, 2, false);
             oTable.fnUpdate('<input type="number" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].length" value="' + jqInputs[3].value + '" readonly>', nRow, 3, false);
-            oTable.fnUpdate('<input type="text" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].comment" value="' + jqInputs[4].value + '" readonly>', nRow, 4, false);
+            oTable.fnUpdate('<input type="text" class="form-control input-small" name="ledgerDictionaries[' + (jqInputs[0].value - 1) + '].ldComment" value="' + jqInputs[4].value + '" readonly>', nRow, 4, false);
             oTable.fnUpdate('<a class="edit" href="">编辑</a>', nRow, 5, false);
             oTable.fnUpdate('<a class="delete" href="">删除</a>', nRow, 6, false);
             oTable.fnDraw();
