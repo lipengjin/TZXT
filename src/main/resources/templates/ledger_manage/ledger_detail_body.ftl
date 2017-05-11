@@ -36,7 +36,6 @@
 <script type="text/javascript" src="${request.contextPath}/static/js/bootstrap-datepicker.zh-CN.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/moment.min.js"></script>
-<script type="text/javascript" src="${request.contextPath}/static/js/jquery.mockjax.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/bootstrap-editable.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/address.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/wysihtml5.js"></script>
@@ -46,12 +45,14 @@
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/form-editable.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/ledger-data-manage.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Demo.init(); // init demo features
         FormEditable.init();
+        LedgerDataManage.init();
     });
 </script>
 </body>

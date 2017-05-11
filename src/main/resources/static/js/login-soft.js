@@ -210,7 +210,7 @@ var Login = function () {
 	            jQuery('.login-form').show();
 	            jQuery('.register-form').hide();
 	        });
-	}
+	};
     
     return {
         //main function to initiate the module

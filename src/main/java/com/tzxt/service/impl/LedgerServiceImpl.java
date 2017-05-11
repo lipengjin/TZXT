@@ -5,6 +5,7 @@ import com.google.common.base.Throwables;
 import com.tzxt.mapper.LedgerMapper;
 import com.tzxt.model.Ledger;
 import com.tzxt.service.LedgerService;
+import com.tzxt.util.RandomStringUtil;
 import com.tzxt.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +73,8 @@ public class LedgerServiceImpl implements LedgerService {
     @Override
     public Response<Ledger> create(Ledger ledger) {
         try {
+            // 设置 数据库 表名
+            ledger.setTableName(RandomStringUtil.getRandomString());
             ledgerMapper.insertSelective(ledger);
             return Response.ok(ledger);
         } catch (Exception e) {

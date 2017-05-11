@@ -48,7 +48,7 @@ public class LedgerDictionary {
     /**
      * 类型 长度， 不可修改
      */
-    private Integer length;
+    private Integer length = 0;
 
     /**
      * 原始数据表字段，用于映射 台账字段 到 原始表字段
