@@ -216,4 +216,19 @@ public class LedgerController {
 
         return result;
     }
+
+    /**
+     * 查看选定的 台账 的数据
+     *
+     * @return
+     */
+    @GetMapping("/check/{ledgerId}")
+    public ModelAndView ledger(@PathVariable Long ledgerId) {
+
+        System.out.println(ledgerId);
+        ModelAndView result = new ModelAndView("/ledger/ledger");
+        result.addObject("currUser", CurrentUser.get());
+
+        return result;
+    }
 }

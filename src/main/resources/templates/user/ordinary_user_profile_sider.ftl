@@ -18,7 +18,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a href="javascript:void(0);">
+                        <a href="${request.contextPath}/ledger/check/1">
                             <i class="icon-home"></i>
                             台账1</a>
                     </li>

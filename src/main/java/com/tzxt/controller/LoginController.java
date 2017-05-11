@@ -62,7 +62,7 @@ public class LoginController {
         session.setAttribute(Constants.SESSION_USER_ID, user.getId().toString());
 
         // 重定向到 主页
-        return AccountType.ADMIN.getValue().equals(loginUser.getAccountType()) ?  "redirect:/home" : "redirect:/ordinaryHome";
+        return AccountType.ADMIN.getValue().equals(loginUser.getAccountType()) ? "redirect:/home" : "redirect:/ordinaryHome";
     }
 
     /**
@@ -95,9 +95,10 @@ public class LoginController {
         if (session != null) {
             // 1. 清空 session
             session.invalidate();
-        }
-        // 重定向到登录界面
+            // 重定向到登录界面
 
-        return AccountType.ADMIN.getValue().equals(user.getAccountType()) ? "redirect:/":"redirect:/ordinaryLogin";
+            return AccountType.ADMIN.getValue().equals(user.getAccountType()) ? "redirect:/" : "redirect:/ordinaryLogin";
+        }
+        return "redirect:/";
     }
 }
