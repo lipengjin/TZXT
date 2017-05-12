@@ -7,6 +7,7 @@ import com.tzxt.model.LedgerDictionary;
 import com.tzxt.util.Response;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 操作 数据库 表级别参数 的服务
@@ -71,4 +72,15 @@ public interface DBService {
      * @param ledgerDataSet  @return
      */
     Response<Boolean> updateLedger(Long ledgerId, Ledger ledger, List<LedgerDictionary> ledgerDictionaries, LedgerDataSet ledgerDataSet);
+
+    /**
+     * 查询 符合条件的 所有记录
+     *
+     * @param unitId
+     * @param mouth
+     * @param ledger
+     * @param ledgerDictionaries
+     * @return
+     */
+    Response<List<Map<String, Object>>> selectLedgerData(Long unitId, String mouth, Ledger ledger, List<LedgerDictionary> ledgerDictionaries);
 }

@@ -74,7 +74,8 @@
                                                 <div class="col-md-5">
                                                     <button type="submit" class="btn blue-madison">查询 <i
                                                             class="m-icon-swapright m-icon-white"></i></button>
-                                                    <button type="button" class="btn grey-salsa" id="clearQueryParamBtn">清除 <i
+                                                    <button type="button" class="btn grey-salsa"
+                                                            id="clearQueryParamBtn">清除 <i
                                                             class="fa fa-refresh m-icon-white"></i></button>
                                                 </div>
                                             </div>
@@ -92,7 +93,7 @@
                                                     保存为PDF </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:;">
+                                                <a href="${request.contextPath}/excel/export/${ledger.id}<#if queryParam?? && queryParam.unitId??>?unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">
                                                     导出到Excel </a>
                                             </li>
                                         </ul>

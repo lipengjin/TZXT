@@ -102,10 +102,15 @@ public class SQLUtil {
      * @param ledgerDictionaries
      * @return
      */
-    public static String selectList(Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
+    public static String selectListByParam(Map<String, Object> params, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
 //            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
             SELECT("*");
+            ledgerDictionaries.forEach(ld -> {
+                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
+                    WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
+                }
+            });
             FROM(ledger.getTableName());
         }}.toString();
     }

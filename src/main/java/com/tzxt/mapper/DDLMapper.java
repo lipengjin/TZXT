@@ -20,6 +20,8 @@ public interface DDLMapper {
 
     List<Map> selectList(@Param("sql") String sql);
 
+    List<Map<String, Object>> selectListByParam(@Param("sql") String sql);
+
     Map selectById(@Param("sql") String sql);
 
     void updateById(@Param("sql") String sql);

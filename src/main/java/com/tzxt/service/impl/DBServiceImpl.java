@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -163,6 +162,31 @@ public class DBServiceImpl implements DBService {
         } catch (Exception e) {
             logger.error("update ledger failed. ledgerId:{}, ledgerDataSet:{}, cause:{}", ledgerId, ledgerDataSet, Throwables.getStackTraceAsString(e));
             return Response.fail("更新台账数据失败");
+        }
+    }
+
+    /**
+     * 查询 符合条件的 所有记录
+     *
+     * @param unitId
+     * @param mouth
+     * @param ledger
+     * @param ledgerDictionaries
+     * @return
+     */
+    @Override
+    public Response<List<Map<String, Object>>> selectLedgerData(Long unitId, String mouth, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
+        try {
+            Map<String, Object> params = Maps.newHashMap();
+            if (unitId != null && unitId != 0)
+                params.put("unit_id", unitId);
+            if (mouth != null && !"".equals(mouth))
+                params.put("mouth", mouth);
+            String sql = SQLUtil.selectListByParam(params, ledger, ledgerDictionaries);
+            return Response.ok(ddlMapper.selectList(sql));
+        } catch (Exception e) {
+            logger.error("select ledger data failed. unit:{}, mouth:{}, ledger:{}, ld:{}, cause:{}", unitId, mouth, ledger, ledgerDictionaries, Throwables.getStackTraceAsString(e));
+            return Response.fail("查询符合条件的所有记录失败");
         }
     }
 

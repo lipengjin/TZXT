@@ -17,3 +17,11 @@
     前端：freemarker（前端模板技术） + Bootstrap（前端CSS样式框架） + jQuery（前端JS框架）
     
     
+## 文件下载的方式：
+
+1. 利用 response
+
+    ```java
+        IOUtils.write(bao.toByteArray(), response.getOutputStream());
+    ```
+1. 返回 ResponseEntity<Resource>
