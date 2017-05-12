@@ -61,7 +61,7 @@ public class FileController {
         titleKeys.add("update_at");
         List<Map<String, Object>> maps = ResponseHelper.getOrThrow(dbService.selectLedgerData(unitId, mouth, ledger, ledgerDictionaries));
 
-        String fileName = ledger.getName() + "-" + mouth + ".xlsx";
+        String fileName = mouth != null && !"".equals(mouth) ? ledger.getName() + "_" + mouth + ".xlsx" : ledger.getName() + ".xlsx";
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         ExcelExport.doExport("ttt", titles, titleKeys, maps, bao);
         response.setContentType("application/vnd.ms-excel");
