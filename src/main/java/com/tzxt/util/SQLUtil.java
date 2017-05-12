@@ -106,12 +106,12 @@ public class SQLUtil {
         return new SQL() {{
 //            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
             SELECT("*");
+            FROM(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
                 if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
                     WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
                 }
             });
-            FROM(ledger.getTableName());
         }}.toString();
     }
 
@@ -257,10 +257,10 @@ public class SQLUtil {
         data.put("field1", "newData1");
         data.put("field2", "newDate2");
 
-//        System.out.println(selectPageByParam(data, ledger, ledgerDictionaries));
-//        System.out.println(updateById(1L, ledger, ledgerDictionaries, data));
+//        System.out.println(selectPageByParam(1, 10, data, ledger, ledgerDictionaries));
+        System.out.println(updateById(1L, ledger, ledgerDictionaries, data));
 //        System.out.println(selectById(1L, ledger, ledgerDictionaries));
-        System.out.println(selectPage(1, 10, ledger, ledgerDictionaries));
+//        System.out.println(selectPage(1, 10, ledger, ledgerDictionaries));
 //        System.out.println(createLedgerDictionaryTable(ledger, ledgerDictionaries));
     }
 }

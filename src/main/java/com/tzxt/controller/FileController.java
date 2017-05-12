@@ -50,10 +50,11 @@ public class FileController {
         List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
 
         List<String> titles = Lists.newArrayList();
-        titles.add("id");
-        ledgerDictionaries.forEach(ld -> titles.add(ld.getFieldName()));
-        titles.add("create_at");
-        titles.add("update_at");
+        titles.add("ID");
+//        ledgerDictionaries.forEach(ld -> titles.add(ld.getFieldName()));
+        ledgerDictionaries.forEach(ld -> titles.add(ld.getLdComment()));
+        titles.add("创建时间");
+        titles.add("更新时间");
         List<String> titleKeys = Lists.newArrayList();
         titleKeys.add("id");
         ledgerDictionaries.forEach(ld -> titleKeys.add(ld.getFieldName()));
@@ -63,7 +64,7 @@ public class FileController {
 
         String fileName = mouth != null && !"".equals(mouth) ? ledger.getName() + "_" + mouth + ".xlsx" : ledger.getName() + ".xlsx";
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        ExcelExport.doExport("ttt", titles, titleKeys, maps, bao);
+        ExcelExport.doExport(ledger.getName(), titles, titleKeys, maps, bao);
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         IOUtils.write(bao.toByteArray(), response.getOutputStream());

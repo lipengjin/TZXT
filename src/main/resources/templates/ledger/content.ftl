@@ -11,7 +11,7 @@
                         <div class="caption">
                             <i class="fa fa-book"></i>${ledger.name}
                             &nbsp;
-                            <small>---${ledger.comment}</small>
+                            <small>注释:${ledger.comment}</small>
                         </div>
                         <div class="tools">
                             <a href="javascript:;" class="collapse">
@@ -107,7 +107,8 @@
                                 <tr>
                                     <#list ledgerDictionaries as ld>
                                         <th>
-                                        ${ld.fieldName}
+                                        <#--${ld.fieldName}-->
+                                        ${ld.ldComment}
                                         </th>
                                     </#list>
                                     <th>
