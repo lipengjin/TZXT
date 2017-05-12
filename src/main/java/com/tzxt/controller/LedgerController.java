@@ -1,6 +1,5 @@
 package com.tzxt.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.tzxt.dto.LedgerData;
 import com.tzxt.dto.LedgerDataSet;
@@ -16,9 +15,7 @@ import com.tzxt.service.LedgerService;
 import com.tzxt.service.UnitService;
 import com.tzxt.util.CurrentUser;
 import com.tzxt.util.LedgerDataPageInfo;
-import com.tzxt.util.RandomStringUtil;
 import com.tzxt.util.ResponseHelper;
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -242,28 +239,55 @@ public class LedgerController {
      * @param ledgerDataId
      * @return
      */
-    @GetMapping("/data/{ledgerDataId}")
-    public ModelAndView editLedgerData(@PathVariable Long ledgerDataId) {
+    @GetMapping("/data/{ledgerId}/{ledgerDataId}")
+    public ModelAndView editLedgerData(@PathVariable Long ledgerId,
+                                       @PathVariable Long ledgerDataId) {
 
+        // 1. 权限检测
         System.out.println(ledgerDataId);
 
-        return null;
+        // 2. 返回模型视图
+        List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
+        Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
+        List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
+        LedgerDataSet ledgerDataSet = ResponseHelper.getOrThrow(dbService.selectOne(ledger, ledgerDictionaries, ledgerDataId));
+
+        ModelAndView result = new ModelAndView("/ledger/edit_ledger");
+        result.addObject("ledgers", ledgers);
+        result.addObject("currUser", CurrentUser.get());
+        result.addObject("ledger", ledger);
+        result.addObject("ledgerDictionaries", ledgerDictionaries);
+        result.addObject("ledgerDataSet", ledgerDataSet);
+
+        return result;
     }
 
     /**
      * 保存 修改的 台账数据
      *
-     * @param data
+     * @param ledgerId
+     * @param ledgerDataSet
      * @return
      */
-    @PostMapping("/saveLedgerData")
-    public ModelAndView saveLedgerData(Map<String, Object> data) {
+    @PostMapping("/saveLedgerData/{ledgerId}")
+    public String saveLedgerData(@PathVariable Long ledgerId,
+                                 LedgerDataSet ledgerDataSet) {
 
-        return null;
+        // 1. 权限检测
+
+        // 2. update
+        System.out.println(ledgerId);
+        System.out.println(ledgerDataSet);
+        Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
+        List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
+        ResponseHelper.getOrThrow(dbService.updateLedger(ledgerId, ledger, ledgerDictionaries, ledgerDataSet));
+
+        return "redirect:/ledger/check/" + ledgerId;
     }
 
     /**
      * 查看选定的 台账 的数据
+     * 处理 分页和初次进入 此页面的 get 请求
      *
      * @return
      */
@@ -299,6 +323,7 @@ public class LedgerController {
 
     /**
      * 查看选定的 台账 的数据
+     * 处理表单提交的 post 请求
      *
      * @return
      */

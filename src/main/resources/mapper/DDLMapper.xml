@@ -16,4 +16,10 @@
     <select id="selectList" resultType="java.util.HashMap">
         ${sql}
     </select>
+    <select id="selectById" resultType="java.util.HashMap">
+        ${sql}
+    </select>
+    <update id="updateById">
+        ${sql}
+    </update>
 </mapper>

@@ -19,4 +19,8 @@ public interface DDLMapper {
     Long countByParam(@Param("sql") String sql);
 
     List<Map> selectList(@Param("sql") String sql);
+
+    Map selectById(@Param("sql") String sql);
+
+    void updateById(@Param("sql") String sql);
 }

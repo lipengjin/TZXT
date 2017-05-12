@@ -52,4 +52,23 @@ public interface DBService {
      */
     Response<Long> count(QueryParam queryParam, Ledger ledger, List<LedgerDictionary> ledgerDictionaries);
 
+    /**
+     * 查询指定 台账的 指定ID 的数据
+     *
+     * @param ledger
+     * @param ledgerDictionaries
+     * @param ledgerDataId
+     * @return
+     */
+    Response<LedgerDataSet> selectOne(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, Long ledgerDataId);
+
+    /**
+     * 更新 台账 数据
+     *
+     * @param ledgerId
+     * @param ledger
+     *@param ledgerDictionaries
+     * @param ledgerDataSet  @return
+     */
+    Response<Boolean> updateLedger(Long ledgerId, Ledger ledger, List<LedgerDictionary> ledgerDictionaries, LedgerDataSet ledgerDataSet);
 }

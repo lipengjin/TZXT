@@ -7,6 +7,10 @@ import com.tzxt.model.Ledger;
 import com.tzxt.model.LedgerDictionary;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -133,8 +137,8 @@ public class SQLUtil {
      */
     public static String selectById(Long id, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
-//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
-            SELECT("*");
+            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
+//            SELECT("*");
             FROM(ledger.getTableName());
             WHERE("`id`=" + id);
         }}.toString();
@@ -156,6 +160,8 @@ public class SQLUtil {
                     SET("`" + ld.getFieldName() + "`='" + data.get(ld.getFieldName()) + "'");
                 }
             });
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SET("`update_at`='" + simpleDateFormat.format(new Date()) + "'");
             WHERE("`id`=" + id);
         }}.toString();
     }
@@ -182,7 +188,7 @@ public class SQLUtil {
                     WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
                 }
             });
-        }}.toString() + " LIMIT " + pageNo + "," + pageSize + ";";
+        }}.toString() + " LIMIT " + (pageNo - 1) + "," + pageSize + ";";
     }
 
     /**

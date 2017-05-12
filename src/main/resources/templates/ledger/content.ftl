@@ -138,7 +138,7 @@
                                             </#list>
 
                                             <td>
-                                                <a href="${request.contextPath}/ledger/detail/${lds.id}"
+                                                <a href="${request.contextPath}/ledger/data/${ledger.id}/${lds.id}"
                                                    class="btn default btn-xs purple">
                                                     <i class="fa fa-edit"></i> 编辑 </a>
                                             </td>

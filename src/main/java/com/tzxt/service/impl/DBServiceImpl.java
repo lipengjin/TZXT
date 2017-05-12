@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -120,6 +121,66 @@ public class DBServiceImpl implements DBService {
             logger.error("count ledger failed. queryParam:{}, ledger:{}, cause:{}", queryParam, ledger, Throwables.getStackTraceAsString(e));
             return Response.fail("统计台账数据量失败");
         }
+    }
+
+    /**
+     * 查询指定 台账的 指定ID 的数据
+     *
+     * @param ledger
+     * @param ledgerDictionaries
+     * @param ledgerDataId
+     * @return
+     */
+    @Override
+    public Response<LedgerDataSet> selectOne(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, Long ledgerDataId) {
+        try {
+            String sql = SQLUtil.selectById(ledgerDataId, ledger, ledgerDictionaries);
+            Map map = ddlMapper.selectById(sql);
+            return Response.ok(assemblyLedgerData(ledgerDictionaries, map, ledgerDataId));
+        } catch (Exception e) {
+            logger.error("select one ledger failed. ledger:{}, ledgerDictionaries:{}, ledgerDataId:{}, cause:{}", ledger, ledgerDictionaries, ledger, Throwables.getStackTraceAsString(e));
+            return Response.fail("查询指定台账指定id的数据失败");
+        }
+    }
+
+    /**
+     * 更新 台账 数据
+     *
+     * @param ledgerId
+     * @param ledger
+     * @param ledgerDictionaries
+     * @param ledgerDataSet      @return
+     */
+    @Override
+    public Response<Boolean> updateLedger(Long ledgerId, Ledger ledger, List<LedgerDictionary> ledgerDictionaries, LedgerDataSet ledgerDataSet) {
+        try {
+            Map<String, Object> map = Maps.newHashMap();
+            ledgerDataSet.getLedgerData().forEach(lds -> map.put(lds.getName(), lds.getValue()));
+            String sql = SQLUtil.updateById(Long.parseLong(ledgerDataSet.getId().toString()), ledger, ledgerDictionaries, map);
+            logger.info("\n" + sql);
+            ddlMapper.updateById(sql);
+            return Response.ok(Boolean.TRUE);
+        } catch (Exception e) {
+            logger.error("update ledger failed. ledgerId:{}, ledgerDataSet:{}, cause:{}", ledgerId, ledgerDataSet, Throwables.getStackTraceAsString(e));
+            return Response.fail("更新台账数据失败");
+        }
+    }
+
+    private LedgerDataSet assemblyLedgerData(List<LedgerDictionary> ledgerDictionaries, Map map, Long ledgerDataId) {
+        LedgerDataSet ledgerDataSet = new LedgerDataSet();
+        List<LedgerData> ledgerData = Lists.newArrayList();
+        final int[] index = {0};
+        ledgerDictionaries.forEach(ld -> {
+            LedgerData l = new LedgerData();
+            l.setIndex(index[0]++);
+            l.setName(ld.getFieldName());
+            l.setValue(map.get(ld.getFieldName()));
+            ledgerData.add(l);
+        });
+        ledgerDataSet.setLedgerData(ledgerData);
+        ledgerDataSet.setId(ledgerDataId);
+
+        return ledgerDataSet;
     }
 
     private List<LedgerDataSet> assemblyLedgerDataSet(List<Map> lds, List<LedgerDictionary> ledgerDictionaries) {
