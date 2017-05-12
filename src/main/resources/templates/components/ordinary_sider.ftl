@@ -16,11 +16,16 @@
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
-                    <li>
-                        <a href="${request.contextPath}/ledger/check/1">
-                            <i class="icon-home"></i>
-                            台账1</a>
-                    </li>
+                <#if ledgers??>
+                    <#list ledgers as ledger>
+                        <li>
+                            <a href="${request.contextPath}/ledger/check/${ledger.id}">
+                                <i class="fa fa-book"></i>
+                            ${ledger.name}</a>
+                            </a>
+                        </li>
+                    </#list>
+                </#if>
                 </ul>
             </li>
         </ul>

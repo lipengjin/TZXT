@@ -24,14 +24,19 @@
 
 package com.tzxt.controller;
 
+import com.tzxt.model.Ledger;
 import com.tzxt.model.User;
+import com.tzxt.service.LedgerService;
 import com.tzxt.util.AccountType;
 import com.tzxt.util.CurrentUser;
+import com.tzxt.util.ResponseHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * @author liuzh
@@ -41,6 +46,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/users")
 public class UserController {
 
+    private final LedgerService ledgerService;
+
+    public UserController(LedgerService ledgerService) {
+        this.ledgerService = ledgerService;
+    }
 
     @PostMapping(value = "/register")
     public ModelAndView register(User user) {
@@ -62,12 +72,19 @@ public class UserController {
      */
     @GetMapping(value = "profile")
     public ModelAndView user() {
+
         // 根据 用户 的角色 返回不同的界面
         User user = CurrentUser.get();
-        ModelAndView result = AccountType.ADMIN.getValue().equals(user.getAccountType()) ?
-                new ModelAndView("/user/user_profile") :
-                new ModelAndView("/user/ordinary_user_profile");
-        result.addObject("currUser", user);
+        List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
+        ModelAndView result = new ModelAndView();
+        result.addObject("currUser", CurrentUser.get());
+
+        if (AccountType.ADMIN.getValue().equals(user.getAccountType())) {
+            result.setViewName("/user/user_profile");
+        } else {
+            result.setViewName("/user/ordinary_user_profile");
+            result.addObject("ledgers", ledgers);
+        }
         return result;
     }
 }

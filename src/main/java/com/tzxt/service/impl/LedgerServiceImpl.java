@@ -99,4 +99,19 @@ public class LedgerServiceImpl implements LedgerService {
             return Response.fail("更新台账失败");
         }
     }
+
+    /**
+     * 查询 台账 列表
+     *
+     * @return
+     */
+    @Override
+    public Response<List<Ledger>> selectAll() {
+        try {
+            return Response.ok(ledgerMapper.selectAll());
+        } catch (Exception e) {
+            logger.error("select all ledger failed. cause:{}", Throwables.getStackTraceAsString(e));
+            return Response.fail("查询台账列表失败");
+        }
+    }
 }

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tzxt.mapper.DDLMapper">
-    <update id="executeSQL" parameterType="string">
+    <update id="executeSQL">
       ${sql}
     </update>
+    <select id="showTables" resultType="string">
+        show tables
+    </select>
+    <select id="count" resultType="long">
+        SELECT COUNT(1) FROM `${name}`
+    </select>
+    <select id="selectList" resultType="java.util.HashMap">
+        ${sql}
+    </select>
 </mapper>

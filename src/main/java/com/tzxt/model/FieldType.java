@@ -24,7 +24,8 @@ public class FieldType {
     private Date updateAt;
 
     /**
-     * INT	        整形数据
+     * BIGINT       大整型数据 常用来做 自增主键ID
+     * INT	        整型数据
      * FLOAT	    浮点型数据
      * VARCHAR	    字符型数据
      * DATETIME	    日期类型数据
@@ -35,7 +36,7 @@ public class FieldType {
     private String display;
 
     public enum Type {
-        INT("INT"), FLOAT("FLOAT"), VARCHAR("VARCHAR"), DATETIME("DATETIME"), TEXT("TEXT"), BOOLEAN("BOOLEAN");
+        BIGINT("BIGINT"), INT("INT"), FLOAT("FLOAT"), VARCHAR("VARCHAR"), DATETIME("DATETIME"), TEXT("TEXT"), BOOLEAN("BOOLEAN");
 
         private String value;
 

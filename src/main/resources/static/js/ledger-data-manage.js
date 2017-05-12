@@ -26,8 +26,9 @@ var LedgerDataManage = function () {
                     }
                 },
                 error: function (error) {
-                    console.log(error);
-                    createLedgerErrorNote.show();
+                    console.log(error.responseJSON.message);
+                    // createLedgerErrorNote.show();
+                    createLedgerErrorNote.html('<h4 class="block">' + error.responseJSON.message + '</h4>').show();
                 }
             });
 
@@ -48,7 +49,8 @@ var LedgerDataManage = function () {
                 },
                 error: function (error) {
                     console.log(error.responseJSON.message);
-                    pullDataErrorNote.show();
+                    // pullDataErrorNote.show();
+                    pullDataErrorNote.html('<h4 class="block">' + error.responseJSON.message + '</h4>').show();
                 }
             });
 

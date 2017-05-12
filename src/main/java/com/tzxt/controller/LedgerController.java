@@ -1,15 +1,22 @@
 package com.tzxt.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.tzxt.dto.LedgerData;
+import com.tzxt.dto.LedgerDataSet;
 import com.tzxt.dto.LedgerDetail;
+import com.tzxt.dto.QueryParam;
 import com.tzxt.dto.UpdateParam;
 import com.tzxt.model.Ledger;
 import com.tzxt.model.LedgerDictionary;
+import com.tzxt.model.Unit;
+import com.tzxt.service.DBService;
 import com.tzxt.service.LedgerDictionaryService;
 import com.tzxt.service.LedgerService;
+import com.tzxt.service.UnitService;
 import com.tzxt.util.CurrentUser;
 import com.tzxt.util.RandomStringUtil;
 import com.tzxt.util.ResponseHelper;
+import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 台账 管理
@@ -34,11 +42,17 @@ public class LedgerController {
 
     private final LedgerService ledgerService;
     private final LedgerDictionaryService ledgerDictionaryService;
+    private final UnitService unitService;
+    private final DBService dbService;
 
     public LedgerController(LedgerService ledgerService,
-                            LedgerDictionaryService ledgerDictionaryService) {
+                            LedgerDictionaryService ledgerDictionaryService,
+                            UnitService unitService,
+                            DBService dbService) {
         this.ledgerService = ledgerService;
         this.ledgerDictionaryService = ledgerDictionaryService;
+        this.unitService = unitService;
+        this.dbService = dbService;
     }
 
 
@@ -90,6 +104,7 @@ public class LedgerController {
         // 3. 执行 保存操作
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.create(ledgerDetail.getLedger()));
         ledgerDetail.getLedgerDictionaries().forEach(ledgerDictionary -> {
+            ledgerDictionary.setFieldType(ledgerDictionary.getFieldType().toUpperCase());
             ledgerDictionary.setLedgerId(ledger.getId());
             // TODO: 17/5/10 这里先模拟填写 字段对应的原始数据表的 字段名
             // TODO: 17/5/10 如果 动态选择 原始表的 字段，需要提供原始表的表结构或者原始数据库的连接方式自行获取其表结构。 同时前端界面也需要修改
@@ -218,17 +233,93 @@ public class LedgerController {
         return result;
     }
 
+
+    /**
+     * 编辑 台账 数据
+     *
+     * @param ledgerDataId
+     * @return
+     */
+    @GetMapping("/data/{ledgerDataId}")
+    public ModelAndView editLedgerData(@PathVariable Long ledgerDataId) {
+
+        System.out.println(ledgerDataId);
+
+        return null;
+    }
+
+    /**
+     * 保存 修改的 台账数据
+     *
+     * @param data
+     * @return
+     */
+    @PostMapping("/saveLedgerData")
+    public ModelAndView saveLedgerData(Map<String, Object> data) {
+
+        return null;
+    }
+
     /**
      * 查看选定的 台账 的数据
      *
      * @return
      */
     @GetMapping("/check/{ledgerId}")
-    public ModelAndView ledger(@PathVariable Long ledgerId) {
+    public ModelAndView ledger(@PathVariable Long ledgerId,
+                               @RequestParam(required = false) Integer pageNo,
+                               @RequestParam(required = false) Integer pageSize,
+                               @RequestParam(required = false) Long unitId,
+                               @RequestParam(required = false) String mouth) {
 
-        System.out.println(ledgerId);
+        // 1. 权限检测
+
+        pageNo = pageNo == null ? 1 : pageNo;
+        pageSize = pageSize == null ? 10 : pageSize;
+        // 2. 返回 模型视图
+        List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
+        Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
+        List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
+        List<Unit> units = ResponseHelper.getOrThrow(unitService.selectAll());
+        List<LedgerDataSet> ledgerDataSets = ResponseHelper.getOrThrow(dbService.pageLedgerData(pageNo, pageSize, new QueryParam(unitId, mouth), ledger, ledgerDictionaries));
+
+        System.out.println(ledgerDataSets);
         ModelAndView result = new ModelAndView("/ledger/ledger");
+        result.addObject("ledgers", ledgers);
         result.addObject("currUser", CurrentUser.get());
+        result.addObject("ledger", ledger);
+        result.addObject("ledgerDictionaries", ledgerDictionaries);
+        result.addObject("units", units);
+        result.addObject("ledgerDataSets", ledgerDataSets);
+
+        return result;
+    }
+
+    /**
+     * 查看选定的 台账 的数据
+     *
+     * @return
+     */
+    @PostMapping("/check/{ledgerId}")
+    public ModelAndView checkLedger(@PathVariable Long ledgerId, QueryParam queryParam) {
+        // 1. 权限检测
+
+        System.out.println(queryParam);
+        // 2. 返回 模型视图
+        List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
+        Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
+        List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
+        List<Unit> units = ResponseHelper.getOrThrow(unitService.selectAll());
+        List<LedgerDataSet> ledgerDataSets = ResponseHelper.getOrThrow(dbService.pageLedgerData(1, 10, queryParam, ledger, ledgerDictionaries));
+
+        ModelAndView result = new ModelAndView("/ledger/ledger");
+        result.addObject("ledgers", ledgers);
+        result.addObject("currUser", CurrentUser.get());
+        result.addObject("ledger", ledger);
+        result.addObject("ledgerDictionaries", ledgerDictionaries);
+        result.addObject("units", units);
+        result.addObject("queryParam", queryParam);
+        result.addObject("ledgerDataSets", ledgerDataSets);
 
         return result;
     }

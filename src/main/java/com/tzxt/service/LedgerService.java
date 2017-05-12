@@ -43,4 +43,11 @@ public interface LedgerService {
      * @return
      */
     Response<Boolean> update(Ledger ledger);
+
+    /**
+     * 查询 台账 列表
+     *
+     * @return
+     */
+    Response<List<Ledger>> selectAll();
 }
