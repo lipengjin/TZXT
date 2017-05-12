@@ -16,5 +16,7 @@ public interface DDLMapper {
 
     Long count(@Param("name") String name);
 
+    Long countByParam(@Param("sql") String sql);
+
     List<Map> selectList(@Param("sql") String sql);
 }

@@ -152,7 +152,7 @@ public class SQLUtil {
         return new SQL() {{
             UPDATE(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (data.containsKey(ld.getFieldName()) && data.get(ld.getFieldName()) != null) {
+                if (data.containsKey(ld.getFieldName()) && data.get(ld.getFieldName()) != null && !"".equals(data.get(ld.getFieldName()))) {
                     SET("`" + ld.getFieldName() + "`='" + data.get(ld.getFieldName()) + "'");
                 }
             });
@@ -178,7 +178,7 @@ public class SQLUtil {
             SELECT("*");
             FROM(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null) {
+                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
                     WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
                 }
             });
@@ -197,7 +197,7 @@ public class SQLUtil {
             SELECT("COUNT(1)");
             FROM(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null) {
+                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
                     WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
                 }
             });

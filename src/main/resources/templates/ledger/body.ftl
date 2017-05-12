@@ -46,6 +46,12 @@
         Demo.init(); // init demo features
         ComponentsPickers.init();
         FormSamples.init();
+        $('#clearQueryParamBtn').click(function (e) {
+            e.preventDefault();
+
+            $('#mouth_select').val("");
+
+        });
     });
 </script>
 </body>

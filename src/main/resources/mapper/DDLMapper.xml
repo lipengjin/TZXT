@@ -10,6 +10,9 @@
     <select id="count" resultType="long">
         SELECT COUNT(1) FROM `${name}`
     </select>
+    <select id="countByParam" resultType="long">
+        ${sql}
+    </select>
     <select id="selectList" resultType="java.util.HashMap">
         ${sql}
     </select>

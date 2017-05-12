@@ -35,7 +35,7 @@
                                                         <option value="0">请选择单位</option>
                                                         <#if units??>
                                                             <#list units as unit>
-                                                                <#if queryParam??>
+                                                                <#if queryParam?? && queryParam.unitId??>
                                                                     <#if queryParam.unitId == unit.id>
                                                                         <option selected value="${unit.id}">
                                                                         ${unit.name}
@@ -74,6 +74,8 @@
                                                 <div class="col-md-5">
                                                     <button type="submit" class="btn blue-madison">查询 <i
                                                             class="m-icon-swapright m-icon-white"></i></button>
+                                                    <button type="button" class="btn grey-salsa" id="clearQueryParamBtn">清除 <i
+                                                            class="fa fa-refresh m-icon-white"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -119,8 +121,15 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <#if ledgerDataSets??>
-                                        <#list ledgerDataSets as lds>
+                                    <#if ledgerDataPageInfo??>
+                                        <#if ledgerDataPageInfo.size == 0>
+                                        <tr>
+                                            <td colspan="6" align="middle">
+                                                <span>没有数据显示</span>
+                                            </td>
+                                        </tr>
+                                        </#if>
+                                        <#list ledgerDataPageInfo.list as lds>
                                         <tr>
                                             <#list lds.ledgerData as ld>
                                                 <td>
@@ -138,52 +147,56 @@
                                     </#if>
                                 </tbody>
                             </table>
-                        <#--<nav aria-label="Page navigation">-->
-                        <#--<ul class="pagination">-->
-                        <#--<#if ledgerPage.hasPreviousPage>-->
-                        <#--<li>-->
-                        <#--<a href="${request.contextPath}/ledger?pageNo=1&pageSize=${ledgerPage.pageSize}">首页</a>-->
-                        <#--</li>-->
-                        <#--<li>-->
-                        <#--<a href="${request.contextPath}/ledger?pageNo=${ledgerPage.prePage}&pageSize=${ledgerPage.pageSize}">前一页</a>-->
-                        <#--</li>-->
-                        <#--</#if>-->
-                        <#--<#if !ledgerPage.hasPreviousPage>-->
-                        <#--<li class="disabled">-->
-                        <#--<a href="javascript:void(0);">首页</a>-->
-                        <#--</li>-->
-                        <#--<li class="disabled">-->
-                        <#--<a href="javascript:void(0);">前一页</a>-->
-                        <#--</li>-->
-                        <#--</#if>-->
-                        <#--<#list ledgerPage.navigatepageNums as nav>-->
-                        <#--<#if nav == ledgerPage.pageNum>-->
-                        <#--<li class="active"><a href="#">${nav} <span class="sr-only">(current)</span></a></li>-->
-                        <#--</#if>-->
-                        <#--<#if nav != ledgerPage.pageNum>-->
-                        <#--<li>-->
-                        <#--<a href="${request.contextPath}/ledger?pageNo=${nav}&pageSize=${ledgerPage.pageSize}">${nav}</a>-->
-                        <#--</li>-->
-                        <#--</#if>-->
-                        <#--</#list>-->
-                        <#--<#if ledgerPage.hasNextPage>-->
-                        <#--<li>-->
-                        <#--<a href="${request.contextPath}/ledger?pageNo=${ledgerPage.nextPage}&pageSize=${ledgerPage.pageSize}">下一页</a>-->
-                        <#--</li>-->
-                        <#--<li>-->
-                        <#--<a href="${request.contextPath}/ledger?pageNo=${ledgerPage.pages}&pageSize=${ledgerPage.pageSize}">尾页</a>-->
-                        <#--</li>-->
-                        <#--</#if>-->
-                        <#--<#if !ledgerPage.hasNextPage>-->
-                        <#--<li class="disabled">-->
-                        <#--<a href="javascript:void(0);">下一页</a>-->
-                        <#--</li>-->
-                        <#--<li class="disabled">-->
-                        <#--<a href="javascript:void(0);">尾页</a>-->
-                        <#--</li>-->
-                        <#--</#if>-->
-                        <#--</ul>-->
-                        <#--</nav>-->
+                            <#if ledgerDataPageInfo??>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <#if ledgerDataPageInfo.hasPreviousPage>
+                                            <li>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=1&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">首页</a>
+                                            </li>
+                                            <li>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.prePage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">前一页</a>
+                                            </li>
+                                        </#if>
+                                        <#if !ledgerDataPageInfo.hasPreviousPage>
+                                            <li class="disabled">
+                                                <a href="javascript:void(0);">首页</a>
+                                            </li>
+                                            <li class="disabled">
+                                                <a href="javascript:void(0);">前一页</a>
+                                            </li>
+                                        </#if>
+                                        <#list ledgerDataPageInfo.navigatepageNums as nav>
+                                            <#if nav == ledgerDataPageInfo.pageNum>
+                                                <li class="active"><a href="javascript:void(0);">${nav} <span
+                                                        class="sr-only">(current)</span></a>
+                                                </li>
+                                            </#if>
+                                            <#if nav != ledgerDataPageInfo.pageNum>
+                                                <li>
+                                                    <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${nav}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">${nav}</a>
+                                                </li>
+                                            </#if>
+                                        </#list>
+                                        <#if ledgerDataPageInfo.hasNextPage>
+                                            <li>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.nextPage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">下一页</a>
+                                            </li>
+                                            <li>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.pages}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">尾页</a>
+                                            </li>
+                                        </#if>
+                                        <#if !ledgerDataPageInfo.hasNextPage>
+                                            <li class="disabled">
+                                                <a href="javascript:void(0);">下一页</a>
+                                            </li>
+                                            <li class="disabled">
+                                                <a href="javascript:void(0);">尾页</a>
+                                            </li>
+                                        </#if>
+                                    </ul>
+                                </nav>
+                            </#if>
                         </#if>
                     </div>
                 </#if>

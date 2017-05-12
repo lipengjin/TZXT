@@ -100,6 +100,28 @@ public class DBServiceImpl implements DBService {
         }
     }
 
+    /**
+     * 统计 台账表数据量
+     *
+     * @param queryParam
+     * @param ledger
+     * @param ledgerDictionaries
+     * @return
+     */
+    @Override
+    public Response<Long> count(QueryParam queryParam, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
+        try {
+            Map<String, Object> param = Maps.newHashMap();
+            param.put("unit_id", queryParam.getUnitId());
+            param.put("mouth", queryParam.getMouth());
+            String sql = SQLUtil.countByParam(param, ledger, ledgerDictionaries);
+            return Response.ok(ddlMapper.countByParam(sql));
+        } catch (Exception e) {
+            logger.error("count ledger failed. queryParam:{}, ledger:{}, cause:{}", queryParam, ledger, Throwables.getStackTraceAsString(e));
+            return Response.fail("统计台账数据量失败");
+        }
+    }
+
     private List<LedgerDataSet> assemblyLedgerDataSet(List<Map> lds, List<LedgerDictionary> ledgerDictionaries) {
         List<LedgerDataSet> ledgerDataSets = Lists.newArrayList();
 

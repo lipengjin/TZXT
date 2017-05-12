@@ -1,5 +1,6 @@
 package com.tzxt.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.tzxt.dto.LedgerData;
 import com.tzxt.dto.LedgerDataSet;
@@ -14,6 +15,7 @@ import com.tzxt.service.LedgerDictionaryService;
 import com.tzxt.service.LedgerService;
 import com.tzxt.service.UnitService;
 import com.tzxt.util.CurrentUser;
+import com.tzxt.util.LedgerDataPageInfo;
 import com.tzxt.util.RandomStringUtil;
 import com.tzxt.util.ResponseHelper;
 import org.assertj.core.util.Lists;
@@ -282,15 +284,15 @@ public class LedgerController {
         List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
         List<Unit> units = ResponseHelper.getOrThrow(unitService.selectAll());
         List<LedgerDataSet> ledgerDataSets = ResponseHelper.getOrThrow(dbService.pageLedgerData(pageNo, pageSize, new QueryParam(unitId, mouth), ledger, ledgerDictionaries));
+        Long total = ResponseHelper.getOrThrow(dbService.count(new QueryParam(unitId, mouth), ledger, ledgerDictionaries));
 
-        System.out.println(ledgerDataSets);
         ModelAndView result = new ModelAndView("/ledger/ledger");
         result.addObject("ledgers", ledgers);
         result.addObject("currUser", CurrentUser.get());
         result.addObject("ledger", ledger);
         result.addObject("ledgerDictionaries", ledgerDictionaries);
         result.addObject("units", units);
-        result.addObject("ledgerDataSets", ledgerDataSets);
+        result.addObject("ledgerDataPageInfo", new LedgerDataPageInfo(ledgerDataSets, pageNo, pageSize, total));
 
         return result;
     }
@@ -304,13 +306,15 @@ public class LedgerController {
     public ModelAndView checkLedger(@PathVariable Long ledgerId, QueryParam queryParam) {
         // 1. 权限检测
 
-        System.out.println(queryParam);
+        queryParam.setUnitId(queryParam.getUnitId() > 0L ? queryParam.getUnitId() : null);
         // 2. 返回 模型视图
         List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
         List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
         List<Unit> units = ResponseHelper.getOrThrow(unitService.selectAll());
         List<LedgerDataSet> ledgerDataSets = ResponseHelper.getOrThrow(dbService.pageLedgerData(1, 10, queryParam, ledger, ledgerDictionaries));
+        Long total = ResponseHelper.getOrThrow(dbService.count(queryParam, ledger, ledgerDictionaries));
+
 
         ModelAndView result = new ModelAndView("/ledger/ledger");
         result.addObject("ledgers", ledgers);
@@ -319,7 +323,8 @@ public class LedgerController {
         result.addObject("ledgerDictionaries", ledgerDictionaries);
         result.addObject("units", units);
         result.addObject("queryParam", queryParam);
-        result.addObject("ledgerDataSets", ledgerDataSets);
+        result.addObject("ledgerDataPageInfo", new LedgerDataPageInfo(ledgerDataSets, 1, 10, total));
+
 
         return result;
     }

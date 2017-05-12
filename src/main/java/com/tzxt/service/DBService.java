@@ -41,4 +41,15 @@ public interface DBService {
      * @return
      */
     Response<List<LedgerDataSet>> pageLedgerData(Integer pageNo, Integer pageSize, QueryParam queryParam, Ledger ledger, List<LedgerDictionary> ledgerDictionaries);
+
+    /**
+     * 统计 台账表数据量
+     *
+     * @param queryParam
+     * @param ledger
+     * @param ledgerDictionaries
+     * @return
+     */
+    Response<Long> count(QueryParam queryParam, Ledger ledger, List<LedgerDictionary> ledgerDictionaries);
+
 }
