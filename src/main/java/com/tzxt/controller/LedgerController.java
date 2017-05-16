@@ -16,6 +16,7 @@ import com.tzxt.service.UnitService;
 import com.tzxt.util.CurrentUser;
 import com.tzxt.util.LedgerDataPageInfo;
 import com.tzxt.util.ResponseHelper;
+import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,8 +84,16 @@ public class LedgerController {
         // 1. 权限检测
 
         // 2. 重定向 到新建页面
+
+        // 3. 这里应该是 动态 获取 可选数据源表
+        List<String> sourceTables = Lists.newArrayList("source1", "source2", "source3", "source4", "source5");
+        // 4. 这里实际上是应该 动态获取 实际数据源指定数据表的 表字段信息，但这里 就用一个 list来模拟一下吧。
+        List<String> sourceFields = Lists.newArrayList("field1", "field2", "field3", "field4", "field5");
+
         ModelAndView result = new ModelAndView("/ledger_manage/new_ledger");
         result.addObject("currUser", CurrentUser.get());
+        result.addObject("sourceTables", sourceTables);
+        result.addObject("sourceFields", sourceFields);
         return result;
     }
 
@@ -105,9 +114,6 @@ public class LedgerController {
         ledgerDetail.getLedgerDictionaries().forEach(ledgerDictionary -> {
             ledgerDictionary.setFieldType(ledgerDictionary.getFieldType().toUpperCase());
             ledgerDictionary.setLedgerId(ledger.getId());
-            // TODO: 17/5/10 这里先模拟填写 字段对应的原始数据表的 字段名
-            // TODO: 17/5/10 如果 动态选择 原始表的 字段，需要提供原始表的表结构或者原始数据库的连接方式自行获取其表结构。 同时前端界面也需要修改
-            ledgerDictionary.setSourceField("test_source_field");
         });
         ResponseHelper.getOrThrow(ledgerDictionaryService.saveAll(ledgerDetail.getLedgerDictionaries()));
         // 4. 重定向到 台账详情 页面
@@ -126,10 +132,13 @@ public class LedgerController {
         LedgerDetail ledgerDetail = new LedgerDetail();
         ledgerDetail.setLedger(ResponseHelper.getOrThrow(ledgerService.getById(ledgerId)));
         ledgerDetail.setLedgerDictionaries(ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId)));
+        Boolean exist = ResponseHelper.getOrThrow(dbService.exist(ledgerDetail.getLedger().getTableName()));
         // 重定向 到 台账详情 页面
         ModelAndView result = new ModelAndView("/ledger_manage/ledger_detail");
         result.addObject("ledgerDetail", ledgerDetail);
         result.addObject("currUser", CurrentUser.get());
+        result.addObject("exist", exist ? "disabled" : "");
+        result.addObject("style", exist ? "" : "display: none;");
         return result;
     }
 

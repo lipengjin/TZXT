@@ -67,7 +67,7 @@ public class SQLUtil {
     }
 
     private static String COLUMN(LedgerDictionary ledgerDictionary) {
-        return REVERSE_DOT + ledgerDictionary.getFieldName() + REVERSE_DOT + SPACE + fieldType(ledgerDictionary) + " COMMENT '" + ledgerDictionary.getLdComment() + "'" + DOT;
+        return REVERSE_DOT + ledgerDictionary.getSourceField() + REVERSE_DOT + SPACE + fieldType(ledgerDictionary) + " COMMENT '" + ledgerDictionary.getLdComment() + "'" + DOT;
     }
 
     private static String END(String tableComment) {
@@ -95,6 +95,11 @@ public class SQLUtil {
         }
     }
 
+
+//    public static String insertList() {
+//
+//    }
+
     /**
      * 动态 拼装 查询台账 数据的 SQL
      *
@@ -104,12 +109,12 @@ public class SQLUtil {
      */
     public static String selectListByParam(Map<String, Object> params, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
-//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
+//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList()).toArray(new String[0]));
             SELECT("*");
             FROM(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
-                    WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
+                if (params.containsKey(ld.getSourceField()) && params.get(ld.getSourceField()) != null && !"".equals(params.get(ld.getSourceField()))) {
+                    WHERE("`" + ld.getSourceField() + "`='" + params.get(ld.getSourceField()) + "'");
                 }
             });
         }}.toString();
@@ -126,7 +131,7 @@ public class SQLUtil {
      */
     public static String selectPage(Integer pageNo, Integer pageSize, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
-//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
+//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList()).toArray(new String[0]));
             SELECT("*");
             FROM(ledger.getTableName());
         }}.toString() + " LIMIT " + pageNo + "," + pageSize + ";";
@@ -142,7 +147,7 @@ public class SQLUtil {
      */
     public static String selectById(Long id, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
-            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
+            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList()).toArray(new String[0]));
 //            SELECT("*");
             FROM(ledger.getTableName());
             WHERE("`id`=" + id);
@@ -161,8 +166,8 @@ public class SQLUtil {
         return new SQL() {{
             UPDATE(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (data.containsKey(ld.getFieldName()) && data.get(ld.getFieldName()) != null && !"".equals(data.get(ld.getFieldName()))) {
-                    SET("`" + ld.getFieldName() + "`='" + data.get(ld.getFieldName()) + "'");
+                if (data.containsKey(ld.getSourceField()) && data.get(ld.getSourceField()) != null && !"".equals(data.get(ld.getSourceField()))) {
+                    SET("`" + ld.getSourceField() + "`='" + data.get(ld.getSourceField()) + "'");
                 }
             });
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -185,12 +190,12 @@ public class SQLUtil {
      */
     public static String selectPageByParam(Integer pageNo, Integer pageSize, Map<String, Object> params, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
-//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getFieldName).collect(Collectors.toList()).toArray(new String[0]));
+//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList()).toArray(new String[0]));
             SELECT("*");
             FROM(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
-                    WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
+                if (params.containsKey(ld.getSourceField()) && params.get(ld.getSourceField()) != null && !"".equals(params.get(ld.getSourceField()))) {
+                    WHERE("`" + ld.getSourceField() + "`='" + params.get(ld.getSourceField()) + "'");
                 }
             });
         }}.toString() + " LIMIT " + (pageNo - 1) + "," + pageSize + ";";
@@ -208,8 +213,8 @@ public class SQLUtil {
             SELECT("COUNT(1)");
             FROM(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
-                if (params.containsKey(ld.getFieldName()) && params.get(ld.getFieldName()) != null && !"".equals(params.get(ld.getFieldName()))) {
-                    WHERE("`" + ld.getFieldName() + "`='" + params.get(ld.getFieldName()) + "'");
+                if (params.containsKey(ld.getSourceField()) && params.get(ld.getSourceField()) != null && !"".equals(params.get(ld.getSourceField()))) {
+                    WHERE("`" + ld.getSourceField() + "`='" + params.get(ld.getSourceField()) + "'");
                 }
             });
         }}.toString();
@@ -218,36 +223,30 @@ public class SQLUtil {
     public static void main(String[] args) {
 
         Ledger ledger = new Ledger();
-        ledger.setTableName("ledger1");
-        ledger.setComment("ledger1Comment");
+        ledger.setTableName("source1");
+        ledger.setComment("source1Comment");
         List<LedgerDictionary> ledgerDictionaries = Lists.newArrayList();
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i <= 100; i++) {
             LedgerDictionary ledgerDictionary = new LedgerDictionary();
-            ledgerDictionary.setFieldName("field" + i);
-            if (i == 1) {
+            ledgerDictionary.setSourceField("field" + i);
+            if (i % 9 == 1) {
                 ledgerDictionary.setFieldType("VARCHAR");
                 ledgerDictionary.setLength(125);
-            }
-            if (i == 2) {
+            } else if (i % 9 == 2) {
                 ledgerDictionary.setFieldType("INT");
                 ledgerDictionary.setLength(1);
-            }
-
-            if (i == 3) {
+            } else if (i % 9 == 3) {
                 ledgerDictionary.setFieldType("BOOLEAN");
                 ledgerDictionary.setLength(0);
-            }
-
-            if (i == 4) {
+            } else if (i % 9 == 4) {
                 ledgerDictionary.setFieldType("TEXT");
-            }
-
-            if (i == 5) {
+            } else if (i % 9 == 5) {
                 ledgerDictionary.setFieldType("DATETIME");
-            }
-
-            if (i == 6) {
+            } else if (i % 9 == 6) {
                 ledgerDictionary.setFieldType("FLOAT");
+            } else {
+                ledgerDictionary.setFieldType("VARCHAR");
+                ledgerDictionary.setLength(125);
             }
             ledgerDictionary.setLdComment("field" + i + "Comment");
             ledgerDictionaries.add(ledgerDictionary);
@@ -258,9 +257,9 @@ public class SQLUtil {
         data.put("field2", "newDate2");
 
 //        System.out.println(selectPageByParam(1, 10, data, ledger, ledgerDictionaries));
-        System.out.println(updateById(1L, ledger, ledgerDictionaries, data));
+//        System.out.println(updateById(1L, ledger, ledgerDictionaries, data));
 //        System.out.println(selectById(1L, ledger, ledgerDictionaries));
 //        System.out.println(selectPage(1, 10, ledger, ledgerDictionaries));
-//        System.out.println(createLedgerDictionaryTable(ledger, ledgerDictionaries));
+        System.out.println(createLedgerDictionaryTable(ledger, ledgerDictionaries));
     }
 }

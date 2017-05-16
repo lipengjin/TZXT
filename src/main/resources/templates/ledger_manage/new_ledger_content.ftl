@@ -28,10 +28,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword12" class="col-md-2 control-label">原始表关联</label>
+                                    <label for="unit_select" class="col-md-2 control-label">原始表关联</label>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" name="ledger.sourceTable"
-                                               placeholder="Source table related" value="">
+                                        <select class="form-control select2_category" id="unit_select"
+                                                name="ledger.sourceTable">
+                                            <option value="0">请选择原始关联表</option>
+                                        <#if sourceTables??>
+                                            <#list sourceTables as source>
+                                                <option value="${source}">
+                                                ${source}
+                                                </option>
+                                            </#list>
+                                        </#if>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -61,6 +70,9 @@
                                         </th>
                                         <th>
                                             字段名称
+                                        </th>
+                                        <th>
+                                            原始字段名
                                         </th>
                                         <th>
                                             字段类型

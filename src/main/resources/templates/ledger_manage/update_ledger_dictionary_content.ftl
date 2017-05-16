@@ -26,7 +26,7 @@
                                     <label for="ldIndex">序号</label>
                                 </div>
                                 <div class="form-group form-md-line-input">
-                                    <input type="text" class="form-control" id="fieldName" name="fieldName" readonly
+                                    <input type="text" class="form-control" id="fieldName" name="fieldName"
                                            placeholder="FieldName"
                                            value="<#if ledgerDictionary.fieldName??>${ledgerDictionary.fieldName}</#if>">
                                     <label for="fieldName">字段名称</label>

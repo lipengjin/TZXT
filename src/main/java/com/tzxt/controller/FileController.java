@@ -51,8 +51,8 @@ public class FileController {
 
         List<String> titles = Lists.newArrayList();
         titles.add("ID");
-//        ledgerDictionaries.forEach(ld -> titles.add(ld.getFieldName()));
-        ledgerDictionaries.forEach(ld -> titles.add(ld.getLdComment()));
+        ledgerDictionaries.forEach(ld -> titles.add(ld.getFieldName()));
+//        ledgerDictionaries.forEach(ld -> titles.add(ld.getLdComment()));
         titles.add("创建时间");
         titles.add("更新时间");
         List<String> titleKeys = Lists.newArrayList();

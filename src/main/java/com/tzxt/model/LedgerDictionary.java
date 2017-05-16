@@ -31,7 +31,7 @@ public class LedgerDictionary {
     private Integer ldIndex;
 
     /**
-     * 字段 名称， 可修改
+     * 字段 显示 名称， 可修改
      */
     private String fieldName;
 
@@ -51,7 +51,7 @@ public class LedgerDictionary {
     private Integer length = 0;
 
     /**
-     * 原始数据表字段，用于映射 台账字段 到 原始表字段
+     * 原始数据表字段，用于表示 创建的 台账表里面的 字段名
      */
     private String sourceField;
 

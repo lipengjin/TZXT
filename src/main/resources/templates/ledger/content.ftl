@@ -107,8 +107,8 @@
                                 <tr>
                                     <#list ledgerDictionaries as ld>
                                         <th>
-                                        <#--${ld.fieldName}-->
-                                        ${ld.ldComment}
+                                        ${ld.fieldName}
+                                        <#--${ld.ldComment}-->
                                         </th>
                                     </#list>
                                     <th>

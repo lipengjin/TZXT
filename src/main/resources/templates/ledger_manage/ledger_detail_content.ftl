@@ -74,19 +74,30 @@
                                                 </div>
                                                 <div class="portlet-body">
                                                     <div class="btn-group">
-                                                        <button class="btn btn-lg green" id="createLedgerBtn"> 建表</button>
-                                                        <button class="btn btn-lg blue-dark" id="pullDataBtn"> 拉取数据</button>
+                                                        <button class="btn btn-lg green"
+                                                                id="createLedgerBtn" <#if exist??>${exist}</#if>> 建表
+                                                        </button>
+                                                        <button class="btn btn-lg blue-dark" id="pullDataBtn"> 拉取数据
+                                                        </button>
                                                     </div>
-                                                    <div class="note note-success margin-top-10" style="display: none;" id="createLedgerSuccessNote">
+                                                    <div class="note note-success margin-top-10"
+                                                         style="<#if style??>${style}<#else>display: none;</#if>">
+                                                        <h4 class="block"> 此表已成功创建了</h4>
+                                                    </div>
+                                                    <div class="note note-success margin-top-10" style="display: none;"
+                                                         id="createLedgerSuccessNote">
                                                         <h4 class="block"> 建表成功</h4>
                                                     </div>
-                                                    <div class="note note-danger margin-top-10" style="display: none;" id="createLedgerErrorNote">
+                                                    <div class="note note-danger margin-top-10" style="display: none;"
+                                                         id="createLedgerErrorNote">
                                                         <h4 class="block"> 建表失败，请稍后再试</h4>
                                                     </div>
-                                                    <div class="note note-info margin-top-10" style="display: none;" id="pullDataInfoNote">
+                                                    <div class="note note-info margin-top-10" style="display: none;"
+                                                         id="pullDataInfoNote">
                                                         <h4 class="block"> 后台正在拉取数据...</h4>
                                                     </div>
-                                                    <div class="note note-danger margin-top-10" style="display: none;" id="pullDataErrorNote">
+                                                    <div class="note note-danger margin-top-10" style="display: none;"
+                                                         id="pullDataErrorNote">
                                                         <h4 class="block"> 后台启动拉取数据失败，请稍后再试</h4>
                                                     </div>
                                                 </div>
