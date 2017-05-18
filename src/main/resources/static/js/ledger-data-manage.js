@@ -38,7 +38,7 @@ var LedgerDataManage = function () {
             e.preventDefault();
 
             $.ajax({
-                url: '/db/pullData?ledgerId=' + ledgerId,
+                url: '/db/pullData?ledgerId=' + ledgerId + "&start=" + $('#start').val() + "&end=" + $('#end').val(),
                 type: 'get',
                 success: function (data, status) {
                     if (data) {

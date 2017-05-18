@@ -86,7 +86,7 @@ public class LedgerController {
         // 2. 重定向 到新建页面
 
         // 3. 这里应该是 动态 获取 可选数据源表
-        List<String> sourceTables = Lists.newArrayList("source1", "source2", "source3", "source4", "source5");
+        List<String> sourceTables = Lists.newArrayList("source1");
         // 4. 这里实际上是应该 动态获取 实际数据源指定数据表的 表字段信息，但这里 就用一个 list来模拟一下吧。
         List<String> sourceFields = Lists.newArrayList("field1", "field2", "field3", "field4", "field5");
 

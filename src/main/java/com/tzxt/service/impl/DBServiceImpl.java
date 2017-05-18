@@ -190,6 +190,43 @@ public class DBServiceImpl implements DBService {
         }
     }
 
+    /**
+     * 查询 原始表
+     *
+     * @param sql
+     * @return
+     */
+    @Override
+    public Response<List<Map<String, Object>>> selectPage(String sql) {
+        try {
+            logger.info("\n" + sql);
+            return Response.ok(ddlMapper.selectPage(sql));
+        } catch (Exception e) {
+            logger.error("select source table failed. sql:{}, cause:{}", sql, Throwables.getStackTraceAsString(e));
+            return Response.fail("查询原始表失败");
+        }
+    }
+
+    /**
+     * 插入 台账表
+     *
+     * @param ledger
+     * @param ledgerDictionaries
+     * @param data
+     * @return
+     */
+    @Override
+    public Response<Boolean> insertList(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, List<Map<String, Object>> data) {
+        try {
+            String sql = SQLUtil.insertList(ledger, ledgerDictionaries, data);
+            ddlMapper.insertList(sql);
+            return Response.ok(Boolean.TRUE);
+        } catch (Exception e) {
+            logger.error("insert into ledger failed. ledger:{}, data:{}, cause:{}", ledger, data, Throwables.getStackTraceAsString(e));
+            return Response.fail("插入失败");
+        }
+    }
+
     private LedgerDataSet assemblyLedgerData(List<LedgerDictionary> ledgerDictionaries, Map map, Long ledgerDataId) {
         LedgerDataSet ledgerDataSet = new LedgerDataSet();
         List<LedgerData> ledgerData = Lists.newArrayList();
@@ -197,8 +234,8 @@ public class DBServiceImpl implements DBService {
         ledgerDictionaries.forEach(ld -> {
             LedgerData l = new LedgerData();
             l.setIndex(index[0]++);
-            l.setName(ld.getFieldName());
-            l.setValue(map.get(ld.getFieldName()));
+            l.setName(ld.getSourceField());
+            l.setValue(map.get(ld.getSourceField()));
             ledgerData.add(l);
         });
         ledgerDataSet.setLedgerData(ledgerData);
@@ -214,8 +251,8 @@ public class DBServiceImpl implements DBService {
             List<LedgerData> ledgerData = Lists.newArrayList();
             ledgerDictionaries.forEach(ledgerDictionary -> {
                 LedgerData l = new LedgerData();
-//                l.setName(ledgerDictionary.getFieldName());
-                l.setValue(map.get(ledgerDictionary.getFieldName()));
+//                l.setName(ledgerDictionary.getSourceField());
+                l.setValue(map.get(ledgerDictionary.getSourceField()));
                 ledgerData.add(l);
             });
             LedgerData l2 = new LedgerData();

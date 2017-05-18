@@ -15,6 +15,7 @@
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
     <link href="${request.contextPath}/static/css/select2.css" rel="stylesheet" type="text/css"/>
     <link href="${request.contextPath}/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${request.contextPath}/static/css/bootstrap-datepicker3.min.css"/>
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN THEME STYLES -->
     <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->

@@ -40,18 +40,27 @@
 <script type="text/javascript" src="${request.contextPath}/static/js/address.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/wysihtml5.js"></script>
 <!-- END X-EDITABLE PLUGIN -->
+
+<script src="${request.contextPath}/static/js/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/jquery.bootpag.min.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/holder.js" type="text/javascript"></script>
+
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/form-editable.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/ledger-data-manage.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/components-pickers.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/ui-general.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Demo.init(); // init demo features
         FormEditable.init();
+        ComponentsPickers.init();
+        UIGeneral.init();
         LedgerDataManage.init();
     });
 </script>

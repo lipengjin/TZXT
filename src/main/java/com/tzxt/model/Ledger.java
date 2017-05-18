@@ -44,4 +44,25 @@ public class Ledger {
      */
     private String comment;
 
+    /**
+     * 管理员设置的 拉取时间段 闭区间
+     */
+    private String startDate;
+    private String endDate;
+
+    /**
+     * 数据拉取的状态
+     */
+    private Integer pullStatus = PullStatus.NEVER.ordinal();
+
+    /**
+     * 0 - 从未拉取过
+     * 1 - 正在拉取
+     * 2 - 拉取完成并成功
+     * 3 - 拉取失败
+     */
+    public enum PullStatus {
+        NEVER(), PULLING(), FINISHED(), FAILED()
+    }
+
 }

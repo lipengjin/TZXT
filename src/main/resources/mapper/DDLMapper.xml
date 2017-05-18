@@ -25,4 +25,10 @@
     <update id="updateById">
         ${sql}
     </update>
+    <select id="selectPage" resultType="java.util.HashMap">
+        ${sql}
+    </select>
+    <insert id="insertList">
+        ${sql}
+    </insert>
 </mapper>

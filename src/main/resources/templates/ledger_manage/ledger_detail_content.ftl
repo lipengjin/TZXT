@@ -77,8 +77,29 @@
                                                         <button class="btn btn-lg green"
                                                                 id="createLedgerBtn" <#if exist??>${exist}</#if>> 建表
                                                         </button>
-                                                        <button class="btn btn-lg blue-dark" id="pullDataBtn"> 拉取数据
+                                                        <button class="btn btn-lg popovers" data-container="body"
+                                                                data-trigger="hover" data-placement="right"
+                                                                data-content="请在下面选择拉取数据的时间区间，不选择则默认全量拉取！"
+                                                                data-original-title="提示" id="pullDataBtn"> 拉取数据
                                                         </button>
+                                                    </div>
+                                                    <div class="margin-top-10">
+                                                        <div class="form-group">
+                                                            <div class="col-md-6">
+                                                                <label class="control-label">请选择数据拉取时间区间：</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="input-group input-large date-picker input-daterange"
+                                                                     data-date-format="yyyy-mm"
+                                                                     data-date-viewmode="years"
+                                                                     data-date-minviewmode="months">
+                                                                    <input type="text" class="form-control" name="from" id="start">
+                                                                    <span class="input-group-addon">
+												                        to </span>
+                                                                    <input type="text" class="form-control" name="to" id="end">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="note note-success margin-top-10"
                                                          style="<#if style??>${style}<#else>display: none;</#if>">

@@ -74,6 +74,17 @@ public class SQLUtil {
         return ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='" + tableComment + "';";
     }
 
+    private static String VALUES(List<String> ledgerFields, Map<String, Object> data) {
+        List<String> vals = Lists.newArrayList();
+        ledgerFields.forEach(field -> vals.add(data.containsKey(field) ? data.get(field).toString() : ""));
+        StringBuilder sb = new StringBuilder();
+        ledgerFields.forEach(f -> {
+            sb.append("'").append(data.getOrDefault(f, "")).append("',");
+        });
+        String sql = sb.toString();
+        return sql.substring(0, sql.length() - 1);
+    }
+
     private static String fieldType(LedgerDictionary ledgerDictionary) {
         switch (Type.getType(ledgerDictionary.getFieldType())) {
             case BIGINT:
@@ -95,10 +106,30 @@ public class SQLUtil {
         }
     }
 
-
-//    public static String insertList() {
-//
-//    }
+    /**
+     * 动态 拼装 插入台账数据 的 SQL
+     * <p>
+     * insert into `table1` (`field1`,`field2`,`field3`,`field4`,`field5`)
+     * values ('value1','value2','value3','value4','value5'),
+     * ('value11','value22','value33','value44','value55'),
+     * ('value111','value222','value333','value444','value555');
+     *
+     * @param ledger
+     * @param ledgerDictionaries
+     * @param data
+     * @return
+     */
+    public static String insertList(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, List<Map<String, Object>> data) {
+        List<String> ledgerFields = ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList());
+        StringBuilder sql = new StringBuilder(new SQL() {{
+            INSERT_INTO(ledger.getTableName());
+            INTO_COLUMNS(ledgerFields.toArray(new String[0]));
+        }}.toString());
+        sql.append("\nVALUES ");
+        data.forEach(d -> sql.append("(").append(VALUES(ledgerFields, d)).append("),\n"));
+        String sqll = sql.toString();
+        return sqll.substring(0, sqll.length() - 2) + ";";
+    }
 
     /**
      * 动态 拼装 查询台账 数据的 SQL
@@ -121,7 +152,7 @@ public class SQLUtil {
     }
 
     /**
-     * 动态 拼装 查询台账 数据的 SQL
+     * 动态 拼装 查询 原始 数据的 SQL
      *
      * @param pageNo
      * @param pageSize
@@ -131,10 +162,13 @@ public class SQLUtil {
      */
     public static String selectPage(Integer pageNo, Integer pageSize, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         return new SQL() {{
-//            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList()).toArray(new String[0]));
-            SELECT("*");
-            FROM(ledger.getTableName());
-        }}.toString() + " LIMIT " + pageNo + "," + pageSize + ";";
+            SELECT((String[]) ledgerDictionaries.stream().map(LedgerDictionary::getSourceField).collect(Collectors.toList()).toArray(new String[0]));
+            FROM(ledger.getSourceTable());
+            if (ledger.getStartDate() != null && !"".equals(ledger.getStartDate()))
+                WHERE("mouth>=" + ledger.getStartDate());
+            if (ledger.getEndDate() != null && !"".equals(ledger.getEndDate()))
+                WHERE("mouth<=" + ledger.getEndDate());
+        }}.toString() + " LIMIT " + (pageNo - 1) * pageSize + "," + pageSize + ";";
     }
 
     /**
@@ -198,7 +232,7 @@ public class SQLUtil {
                     WHERE("`" + ld.getSourceField() + "`='" + params.get(ld.getSourceField()) + "'");
                 }
             });
-        }}.toString() + " LIMIT " + (pageNo - 1) + "," + pageSize + ";";
+        }}.toString() + " LIMIT " + (pageNo - 1) * pageSize + "," + pageSize + ";";
     }
 
     /**
@@ -225,41 +259,63 @@ public class SQLUtil {
         Ledger ledger = new Ledger();
         ledger.setTableName("source1");
         ledger.setComment("source1Comment");
+        List<Map<String, Object>> data1 = Lists.newArrayList();
         List<LedgerDictionary> ledgerDictionaries = Lists.newArrayList();
+        Map<String, Object> data = Maps.newHashMap();
         for (int i = 1; i <= 100; i++) {
+
             LedgerDictionary ledgerDictionary = new LedgerDictionary();
             ledgerDictionary.setSourceField("field" + i);
             if (i % 9 == 1) {
                 ledgerDictionary.setFieldType("VARCHAR");
                 ledgerDictionary.setLength(125);
+                data.put("field" + i, "value" + i);
             } else if (i % 9 == 2) {
                 ledgerDictionary.setFieldType("INT");
                 ledgerDictionary.setLength(1);
+                data.put("field" + i, i);
             } else if (i % 9 == 3) {
                 ledgerDictionary.setFieldType("BOOLEAN");
                 ledgerDictionary.setLength(0);
+                data.put("field" + i, i > 50 ? 1 : 0);
             } else if (i % 9 == 4) {
                 ledgerDictionary.setFieldType("TEXT");
+                data.put("field" + i, "sssssssssssssssssssssss" + i);
             } else if (i % 9 == 5) {
                 ledgerDictionary.setFieldType("DATETIME");
+                data.put("field" + i, "2019-09-09 00:00:00");
             } else if (i % 9 == 6) {
                 ledgerDictionary.setFieldType("FLOAT");
+                data.put("field" + i, 22.22 + i);
             } else {
                 ledgerDictionary.setFieldType("VARCHAR");
                 ledgerDictionary.setLength(125);
+                data.put("field" + i, "value" + i);
             }
             ledgerDictionary.setLdComment("field" + i + "Comment");
             ledgerDictionaries.add(ledgerDictionary);
         }
+        data1.add(data);
+        data1.add(data);
 
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("field1", "newData1");
-        data.put("field2", "newDate2");
+//        Map<String, Object> data = Maps.newHashMap();
+//        data.put("field1", "newData1");
+//        data.put("field2", "newDate2");
+//
+//        Map<String, Object> dataa = Maps.newHashMap();
+//        dataa.put("field1", "newData11");
+//        dataa.put("field2", "newDate22");
+//
+//        List<Map<String, Object>> data1 = Lists.newArrayList();
+//        data1.add(data);
+//        data1.add(dataa);
 
 //        System.out.println(selectPageByParam(1, 10, data, ledger, ledgerDictionaries));
 //        System.out.println(updateById(1L, ledger, ledgerDictionaries, data));
 //        System.out.println(selectById(1L, ledger, ledgerDictionaries));
 //        System.out.println(selectPage(1, 10, ledger, ledgerDictionaries));
-        System.out.println(createLedgerDictionaryTable(ledger, ledgerDictionaries));
+//        System.out.println(createLedgerDictionaryTable(ledger, ledgerDictionaries));
+//        System.out.println(insertList(ledger, ledgerDictionaries, data1));
+
     }
 }

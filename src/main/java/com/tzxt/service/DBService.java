@@ -83,4 +83,21 @@ public interface DBService {
      * @return
      */
     Response<List<Map<String, Object>>> selectLedgerData(Long unitId, String mouth, Ledger ledger, List<LedgerDictionary> ledgerDictionaries);
+
+    /**
+     * 查询 原始表
+     *
+     * @param sql
+     * @return
+     */
+    Response<List<Map<String, Object>>> selectPage(String sql);
+
+    /**
+     *
+     * @param ledger
+     * @param ledgerDictionaries
+     * @param data
+     * @return
+     */
+    Response<Boolean> insertList(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, List<Map<String,Object>> data);
 }

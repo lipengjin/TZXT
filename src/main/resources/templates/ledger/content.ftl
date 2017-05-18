@@ -135,7 +135,7 @@
                                         <tr>
                                             <#list lds.ledgerData as ld>
                                                 <td>
-                                                ${ld.value}
+                                                ${ld.value?string}
                                                 </td>
                                             </#list>
 
