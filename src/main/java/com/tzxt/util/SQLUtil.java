@@ -315,7 +315,7 @@ public class SQLUtil {
 //        System.out.println(selectById(1L, ledger, ledgerDictionaries));
 //        System.out.println(selectPage(1, 10, ledger, ledgerDictionaries));
 //        System.out.println(createLedgerDictionaryTable(ledger, ledgerDictionaries));
-//        System.out.println(insertList(ledger, ledgerDictionaries, data1));
+        System.out.println(insertList(ledger, ledgerDictionaries, data1));
 
     }
 }
