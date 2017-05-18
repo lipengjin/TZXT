@@ -107,7 +107,7 @@ public class LedgerController {
         // 1. 权限检测
 
         // 2. 数据合法性检测
-        System.out.println(ledgerDetail);
+        checkLedgerDetail(ledgerDetail);
 
         // 3. 执行 保存操作
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.create(ledgerDetail.getLedger()));
@@ -118,6 +118,12 @@ public class LedgerController {
         ResponseHelper.getOrThrow(ledgerDictionaryService.saveAll(ledgerDetail.getLedgerDictionaries()));
         // 4. 重定向到 台账详情 页面
         return "redirect:/ledger/detail/" + ledger.getId();
+    }
+
+    private void checkLedgerDetail(LedgerDetail ledgerDetail) {
+        // 检测 Ledger name、原数据表
+
+        // 检测 Ledger 数据字典 数据类型的合法性、对应原始数据表的 字段的合法性（是否存在）、字段名称 唯一性
     }
 
     /**

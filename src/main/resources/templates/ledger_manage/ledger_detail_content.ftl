@@ -79,7 +79,7 @@
                                                         </button>
                                                         <button class="btn btn-lg popovers" data-container="body"
                                                                 data-trigger="hover" data-placement="right"
-                                                                data-content="请在下面选择拉取数据的时间区间，不选择则默认全量拉取！"
+                                                                data-content="请在下面选择拉取数据的时间区间（注意时间区间是闭区间），不选择则默认全量拉取！"
                                                                 data-original-title="提示" id="pullDataBtn"> 拉取数据
                                                         </button>
                                                     </div>
