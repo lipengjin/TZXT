@@ -43,7 +43,7 @@
                                                     <input name="ledgerData[${ld.index}].name" type="text" class="hidden"
                                                            value="${ld.name}"/>
                                                     <input type="text" class="form-control input-small"
-                                                           value="${ld.value}" name="ledgerData[${ld.index}].value"/>
+                                                           value="${ld.value?string}" name="ledgerData[${ld.index}].value"/>
                                                 </td>
                                             </#list>
                                             <td>
