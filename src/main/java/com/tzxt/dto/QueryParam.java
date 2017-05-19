@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QueryParam {
 
-    private Long unitId;
+    private String unit;
 
     private String mouth;
 }

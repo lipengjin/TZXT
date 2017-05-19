@@ -88,7 +88,7 @@ public class DBServiceImpl implements DBService {
     public Response<List<LedgerDataSet>> pageLedgerData(Integer pageNo, Integer pageSize, QueryParam queryParam, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         try {
             Map<String, Object> param = Maps.newHashMap();
-            param.put("unit_id", queryParam.getUnitId());
+            param.put("unit", queryParam.getUnit());
             param.put("mouth", queryParam.getMouth());
             String sql = SQLUtil.selectPageByParam(pageNo, pageSize, param, ledger, ledgerDictionaries);
             logger.info("\n" + sql);
@@ -112,7 +112,7 @@ public class DBServiceImpl implements DBService {
     public Response<Long> count(QueryParam queryParam, Ledger ledger, List<LedgerDictionary> ledgerDictionaries) {
         try {
             Map<String, Object> param = Maps.newHashMap();
-            param.put("unit_id", queryParam.getUnitId());
+            param.put("unit", queryParam.getUnit());
             param.put("mouth", queryParam.getMouth());
             String sql = SQLUtil.countByParam(param, ledger, ledgerDictionaries);
             return Response.ok(ddlMapper.countByParam(sql));

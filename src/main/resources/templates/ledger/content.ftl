@@ -31,22 +31,22 @@
                                                 <label class="control-label col-md-3" for="unit_select">选择单位</label>
                                                 <div class="col-md-4">
                                                     <select class="form-control select2_category" id="unit_select"
-                                                            name="unitId">
+                                                            name="unit">
                                                         <option value="0">请选择单位</option>
                                                         <#if units??>
                                                             <#list units as unit>
-                                                                <#if queryParam?? && queryParam.unitId??>
-                                                                    <#if queryParam.unitId == unit.id>
-                                                                        <option selected value="${unit.id}">
+                                                                <#if queryParam?? && queryParam.unit??>
+                                                                    <#if queryParam.unit == unit.name>
+                                                                        <option selected value="${unit.name}">
                                                                         ${unit.name}
                                                                         </option>
                                                                     <#else>
-                                                                        <option value="${unit.id}">
+                                                                        <option value="${unit.name}">
                                                                         ${unit.name}
                                                                         </option>
                                                                     </#if>
                                                                 <#else>
-                                                                    <option value="${unit.id}">
+                                                                    <option value="${unit.name}">
                                                                     ${unit.name}
                                                                     </option>
                                                                 </#if>
@@ -93,7 +93,7 @@
                                                     保存为PDF </a>
                                             </li>
                                             <li>
-                                                <a href="${request.contextPath}/excel/export/${ledger.id}<#if queryParam?? && queryParam.unitId??>?unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">
+                                                <a href="${request.contextPath}/excel/export/${ledger.id}<#if queryParam?? && queryParam.unit??>?unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">
                                                     导出到Excel </a>
                                             </li>
                                         </ul>
@@ -154,10 +154,10 @@
                                     <ul class="pagination">
                                         <#if ledgerDataPageInfo.hasPreviousPage>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=1&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">首页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=1&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">首页</a>
                                             </li>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.prePage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">前一页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.prePage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">前一页</a>
                                             </li>
                                         </#if>
                                         <#if !ledgerDataPageInfo.hasPreviousPage>
@@ -176,16 +176,16 @@
                                             </#if>
                                             <#if nav != ledgerDataPageInfo.pageNum>
                                                 <li>
-                                                    <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${nav}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">${nav}</a>
+                                                    <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${nav}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">${nav}</a>
                                                 </li>
                                             </#if>
                                         </#list>
                                         <#if ledgerDataPageInfo.hasNextPage>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.nextPage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">下一页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.nextPage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">下一页</a>
                                             </li>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.pages}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unitId??>&unitId=${queryParam.unitId}&mouth=${queryParam.mouth}</#if>">尾页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.pages}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">尾页</a>
                                             </li>
                                         </#if>
                                         <#if !ledgerDataPageInfo.hasNextPage>

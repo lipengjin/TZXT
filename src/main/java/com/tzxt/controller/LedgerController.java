@@ -1,7 +1,6 @@
 package com.tzxt.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.tzxt.dto.LedgerData;
 import com.tzxt.dto.LedgerDataSet;
 import com.tzxt.dto.LedgerDetail;
 import com.tzxt.dto.QueryParam;
@@ -29,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 台账 管理
@@ -310,7 +308,7 @@ public class LedgerController {
     public ModelAndView ledger(@PathVariable Long ledgerId,
                                @RequestParam(required = false) Integer pageNo,
                                @RequestParam(required = false) Integer pageSize,
-                               @RequestParam(required = false) Long unitId,
+                               @RequestParam(required = false) String unit,
                                @RequestParam(required = false) String mouth) {
 
         // 1. 权限检测
@@ -322,8 +320,8 @@ public class LedgerController {
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
         List<LedgerDictionary> ledgerDictionaries = ResponseHelper.getOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
         List<Unit> units = ResponseHelper.getOrThrow(unitService.selectAll());
-        List<LedgerDataSet> ledgerDataSets = ResponseHelper.getOrThrow(dbService.pageLedgerData(pageNo, pageSize, new QueryParam(unitId, mouth), ledger, ledgerDictionaries));
-        Long total = ResponseHelper.getOrThrow(dbService.count(new QueryParam(unitId, mouth), ledger, ledgerDictionaries));
+        List<LedgerDataSet> ledgerDataSets = ResponseHelper.getOrThrow(dbService.pageLedgerData(pageNo, pageSize, new QueryParam(unit, mouth), ledger, ledgerDictionaries));
+        Long total = ResponseHelper.getOrThrow(dbService.count(new QueryParam(unit, mouth), ledger, ledgerDictionaries));
 
         ModelAndView result = new ModelAndView("/ledger/ledger");
         result.addObject("ledgers", ledgers);
@@ -346,7 +344,7 @@ public class LedgerController {
     public ModelAndView checkLedger(@PathVariable Long ledgerId, QueryParam queryParam) {
         // 1. 权限检测
 
-        queryParam.setUnitId(queryParam.getUnitId() > 0L ? queryParam.getUnitId() : null);
+        queryParam.setUnit(queryParam.getUnit() != null || !"".equals(queryParam.getUnit()) ? queryParam.getUnit() : null);
         // 2. 返回 模型视图
         List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
