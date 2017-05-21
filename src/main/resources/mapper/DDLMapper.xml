@@ -31,4 +31,7 @@
     <insert id="insertList">
         ${sql}
     </insert>
+    <update id="drop">
+        DROP TABLE `${tableName}`
+    </update>
 </mapper>

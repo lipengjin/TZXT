@@ -92,4 +92,21 @@ public class LedgerDictionaryServiceImpl implements LedgerDictionaryService {
             return Response.fail("更新台账数据字典失败");
         }
     }
+
+    /**
+     * 清空 某一个台账的数据字典
+     *
+     * @param ledgerId
+     * @return
+     */
+    @Override
+    public Response<Boolean> deleteByLedgerId(Long ledgerId) {
+        try {
+            ledgerDictionaryMapper.deleteByLedgerId(ledgerId);
+            return Response.ok(Boolean.TRUE);
+        } catch (Exception e) {
+            logger.error("delete dictionaries by ledger id failed. ledgerId:{}, cause:{}", ledgerId, Throwables.getStackTraceAsString(e));
+            return Response.fail("根据台账ID删除台账数据字典失败");
+        }
+    }
 }

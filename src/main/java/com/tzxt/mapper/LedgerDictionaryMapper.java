@@ -11,4 +11,6 @@ import java.util.List;
 public interface LedgerDictionaryMapper extends MyMapper<LedgerDictionary> {
 
     List<LedgerDictionary> selectByLedgerId(Long ledgerId);
+
+    void deleteByLedgerId(Long ledgerId);
 }

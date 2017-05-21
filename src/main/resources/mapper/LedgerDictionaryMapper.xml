@@ -10,4 +10,7 @@
     <select id="selectByLedgerId" parameterType="long" resultType="LedgerDictionary">
         SELECT <include refid="cols"/> FROM <include refid="tab"/> WHERE `ledger_id`=#{ledgerId}
     </select>
+    <delete id="deleteByLedgerId" parameterType="long">
+        DELETE FROM <include refid="tab"/> WHERE `ledger_id`=#{ledgerId}
+    </delete>
 </mapper>

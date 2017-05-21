@@ -29,4 +29,6 @@ public interface DDLMapper {
     List<Map<String, Object>> selectPage(@Param("sql") String sql);
 
     void insertList(@Param("sql") String sql);
+
+    void drop(@Param("tableName") String tableName);
 }

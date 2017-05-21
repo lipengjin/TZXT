@@ -226,23 +226,57 @@ public class LedgerController {
     }
 
     /**
+     * 检测表是否存在及是否有数据
+     *
+     * @param ledgerId
+     * @return
+     */
+    @GetMapping("/tableNotExist/{ledgerId}")
+    public Boolean tableNotExist(@PathVariable Long ledgerId) {
+
+        // 检测表是否存在
+        Ledger ledger = ResponseHelper.ajaxGetOrThrow(ledgerService.getById(ledgerId));
+        Boolean exist = ResponseHelper.ajaxGetOrThrow(dbService.exist(ledger.getTableName()));
+        if (!exist) {
+            return Boolean.TRUE;
+        }
+        // 检测表中是否有数据
+        List<LedgerDictionary> ledgerDictionaries = ResponseHelper.ajaxGetOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
+        Long count = ResponseHelper.ajaxGetOrThrow(dbService.count(null, ledger, ledgerDictionaries));
+        if (count > 0L) {
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+
+    }
+
+    /**
      * 删除 台账
      *
      * @param ledgerId
      * @return
      */
     @PutMapping("/delete/{ledgerId}")
-    public ModelAndView delete(@PathVariable Long ledgerId) {
+    @ResponseBody
+    public Boolean delete(@PathVariable Long ledgerId) {
 
         // 1. 权限检测
 
         // 2. 删除 表
+        Ledger ledger = ResponseHelper.ajaxGetOrThrow(ledgerService.getById(ledgerId));
+        Boolean exist = ResponseHelper.ajaxGetOrThrow(dbService.exist(ledger.getTableName()));
+        if (exist) {
+            ResponseHelper.getOrThrow(dbService.dropTable(ledger));
+        }
 
         // 3. 删除 台账信息
+        ResponseHelper.getOrThrow(ledgerDictionaryService.deleteByLedgerId(ledgerId));
+
         ModelAndView result = new ModelAndView("");
         result.addObject("currUser", CurrentUser.get());
 
-        return result;
+        return Boolean.TRUE;
     }
 
 

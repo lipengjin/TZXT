@@ -39,4 +39,12 @@ public interface LedgerDictionaryService {
      * @return
      */
     Response<Boolean> update(LedgerDictionary ledgerDictionary);
+
+    /**
+     * 清空 某一个台账的数据字典
+     *
+     * @param ledgerId
+     * @return
+     */
+    Response<Boolean> deleteByLedgerId(Long ledgerId);
 }
