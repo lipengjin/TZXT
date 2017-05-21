@@ -9,15 +9,19 @@ logging:
         tk.mybatis: TRACE
 
 druid:
-    url: jdbc:mysql://127.0.0.1:3306/tzxt
+    url: jdbc:mysql://120.24.59.27:3306/tzxt
     username: root
-    password: anywhere
+    password: Anywhere1!
     initial-size: 1
     min-idle: 1
     max-active: 20
     test-on-borrow: true
 
 spring:
+    redis:
+        host: 120.24.59.27
+        #password:  #/可能没有密码/
+        port: 6379
     mvc:
         view:
             prefix: /templates/
