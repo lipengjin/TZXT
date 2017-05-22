@@ -38,8 +38,8 @@
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/table-editable.js"></script>
-<script src="${request.contextPath}/static/js/new_ledger_validate.js"></script>
+<script src="${request.contextPath}/static/custom/table-editable.js"></script>
+<script src="${request.contextPath}/static/custom/new_ledger_validate.js"></script>
 <script src="${request.contextPath}/static/js/form-samples.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function() {

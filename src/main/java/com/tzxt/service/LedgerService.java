@@ -50,4 +50,11 @@ public interface LedgerService {
      * @return
      */
     Response<List<Ledger>> selectAll();
+
+    /**
+     * 删除 台账
+     * @param ledgerId
+     * @return
+     */
+    Response<Boolean> deleteLedger(Long ledgerId);
 }

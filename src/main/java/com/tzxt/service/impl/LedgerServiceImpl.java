@@ -114,4 +114,21 @@ public class LedgerServiceImpl implements LedgerService {
             return Response.fail("查询台账列表失败");
         }
     }
+
+    /**
+     * 删除 台账
+     *
+     * @param ledgerId
+     * @return
+     */
+    @Override
+    public Response<Boolean> deleteLedger(Long ledgerId) {
+        try {
+            ledgerMapper.deleteByPrimaryKey(ledgerId);
+            return Response.ok(Boolean.TRUE);
+        } catch (Exception e) {
+            logger.error("delete ledger failed. ledgerId:{}, cause:{}", ledgerId, Throwables.getStackTraceAsString(e));
+            return Response.fail("删除台账失败");
+        }
+    }
 }

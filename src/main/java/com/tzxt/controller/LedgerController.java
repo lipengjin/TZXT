@@ -17,6 +17,7 @@ import com.tzxt.util.LedgerDataPageInfo;
 import com.tzxt.util.ResponseHelper;
 import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -232,6 +233,7 @@ public class LedgerController {
      * @return
      */
     @GetMapping("/tableNotExist/{ledgerId}")
+    @ResponseBody
     public Boolean tableNotExist(@PathVariable Long ledgerId) {
 
         // 检测表是否存在
@@ -257,7 +259,7 @@ public class LedgerController {
      * @param ledgerId
      * @return
      */
-    @PutMapping("/delete/{ledgerId}")
+    @DeleteMapping("/delete/{ledgerId}")
     @ResponseBody
     public Boolean delete(@PathVariable Long ledgerId) {
 
@@ -267,14 +269,12 @@ public class LedgerController {
         Ledger ledger = ResponseHelper.ajaxGetOrThrow(ledgerService.getById(ledgerId));
         Boolean exist = ResponseHelper.ajaxGetOrThrow(dbService.exist(ledger.getTableName()));
         if (exist) {
-            ResponseHelper.getOrThrow(dbService.dropTable(ledger));
+            ResponseHelper.ajaxGetOrThrow(dbService.dropTable(ledger));
         }
 
         // 3. 删除 台账信息
-        ResponseHelper.getOrThrow(ledgerDictionaryService.deleteByLedgerId(ledgerId));
-
-        ModelAndView result = new ModelAndView("");
-        result.addObject("currUser", CurrentUser.get());
+        ResponseHelper.ajaxGetOrThrow(ledgerService.deleteLedger(ledgerId));
+        ResponseHelper.ajaxGetOrThrow(ledgerDictionaryService.deleteByLedgerId(ledgerId));
 
         return Boolean.TRUE;
     }

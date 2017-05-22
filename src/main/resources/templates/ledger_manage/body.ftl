@@ -37,11 +37,13 @@
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/custom/ledger-manage.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Demo.init(); // init demo features
+        LedgerManage.init();
     });
 </script>
 </body>
