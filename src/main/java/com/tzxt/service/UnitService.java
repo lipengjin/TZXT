@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface UnitService {
     Response<List<Unit>> selectAll();
+
+    Response<Unit> findById(Long id);
 }

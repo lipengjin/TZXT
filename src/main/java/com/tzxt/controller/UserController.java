@@ -24,9 +24,18 @@
 
 package com.tzxt.controller;
 
+import com.tzxt.dto.UnitAndRoleAndAuthDto;
+import com.tzxt.dto.UserManageDto;
 import com.tzxt.model.Ledger;
+import com.tzxt.model.Role;
+import com.tzxt.model.RoleAuths;
+import com.tzxt.model.Unit;
 import com.tzxt.model.User;
 import com.tzxt.service.LedgerService;
+import com.tzxt.service.RoleAuthService;
+import com.tzxt.service.RoleService;
+import com.tzxt.service.UnitService;
+import com.tzxt.service.UserService;
 import com.tzxt.util.AccountType;
 import com.tzxt.util.CurrentUser;
 import com.tzxt.util.ResponseHelper;
@@ -36,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,8 +58,20 @@ public class UserController {
 
     private final LedgerService ledgerService;
 
-    public UserController(LedgerService ledgerService) {
+    private final UnitService unitService;
+
+    private final UserService userService;
+
+    private final RoleService roleService;
+
+    private final RoleAuthService roleAuthService;
+
+    public UserController(LedgerService ledgerService, UnitService unitService, UserService userService, RoleService roleService, RoleAuthService roleAuthService) {
         this.ledgerService = ledgerService;
+        this.unitService=unitService;
+        this.userService=userService;
+        this.roleService = roleService;
+        this.roleAuthService = roleAuthService;
     }
 
     @PostMapping(value = "/register")
@@ -87,4 +109,85 @@ public class UserController {
         }
         return result;
     }
+
+    @GetMapping(value="/manage")
+    public ModelAndView userManage(){
+
+        List<User> users = userService.getAll().getData();
+        List<UserManageDto> userManageDtos = new ArrayList<UserManageDto>();
+        for (User user: users){
+
+            UserManageDto userManageDto =new UserManageDto();
+            userManageDto.setId(user.getId().intValue());
+            userManageDto.setUserName(user.getUserName());
+            userManageDto.setRealName(user.getRealName());
+            userManageDto.setUnitName(user.getUnit());
+            userManageDto.setLocked(user.getLocked().toString());
+            userManageDto.setRole(user.getRole());
+            userManageDto.setUnitName(unitService.findById(user.getUnitId()).getData().getName());
+            userManageDto.setAuth(roleService.findById(Long.valueOf(user.getAuth())).getData().getName());
+            userManageDtos.add(userManageDto);
+        }
+
+        ModelAndView result = new ModelAndView();
+        result.addObject("userManageDtos",userManageDtos);
+        result.setViewName("/userManage/user_manage");
+        return result;
+
+
+
+
+    }
+
+
+
+    @GetMapping(value = "/get-unit-role-auth")
+    public ModelAndView getUnitRoleAuth(){
+
+        UnitAndRoleAndAuthDto unitAndRoleAndAuthDto =new UnitAndRoleAndAuthDto();
+
+        List<Role> roles = roleService.getAll().getData();
+        List<Unit> units = unitService.selectAll().getData();
+        List<RoleAuths> roleAuths = roleAuthService.getAll().getData();
+        unitAndRoleAndAuthDto.setRoleAuths(roleAuths);
+        unitAndRoleAndAuthDto.setRoles(roles);
+        unitAndRoleAndAuthDto.setUnits(units);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("unitAndRoleAndAuthDto",unitAndRoleAndAuthDto);
+        modelAndView.setViewName("/userManage/addUser");
+        return  modelAndView;
+
+
+    }
+
+
+
+    @GetMapping(value = "/get-all-role-auth")
+    public ModelAndView getAllRoleAuths(){
+
+        List<RoleAuths> roleAuths = roleAuthService.getAll().getData();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("roleAuths",roleAuths);
+        modelAndView.setViewName("/roleManage/roleAuth");
+        return  modelAndView;
+    }
+
+
+    @PostMapping(value = "/add-role")
+    public ModelAndView addRoleAuths(String userName,List<Integer> ids) {
+
+        for (Integer id:ids){
+            RoleAuths roleAuths =new RoleAuths();
+            roleAuths.setAuth(userName);
+            roleAuths.setId(Long.valueOf(id));
+            roleAuthService.insert(roleAuths);
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("messsage","添加成功！");
+        modelAndView.setViewName("/roleManage/roleAuth");
+        return  modelAndView;
+    }
+
+
+
 }

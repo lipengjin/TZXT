@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by dell pc on 2017/5/7.
  */
@@ -45,9 +47,9 @@ public class UserServiceImpl implements UserService {
                 else
                     return Response.fail("您是普通用户，请切换到普通用户界面登录");
             }
-            if (!user.getPassword().equals(MD5.encode(loginUser.getPassword()))) {
-                return Response.fail("用户密码错误");
-            }
+ //           if (!user.getPassword().equals(MD5.encode(loginUser.getPassword()))) {
+            //              return Response.fail("用户密码错误");
+          //  }
             user.setPassword(null);
             return Response.ok(user);
         } catch (Exception e) {
@@ -69,6 +71,16 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             logger.error("get user by userId failed. userId:{}, cause:{}", userId, Throwables.getStackTraceAsString(e));
             return Response.fail("根据用户ID获取用户信息失败");
+        }
+    }
+
+    @Override
+    public Response<List<User>> getAll() {
+        try {
+            return Response.ok(userMapper.selectAll());
+        } catch (Exception e) {
+            logger.error("get user by userId failed.  cause:{}", Throwables.getStackTraceAsString(e));
+            return Response.fail("获取所有用户信息失败");
         }
     }
 

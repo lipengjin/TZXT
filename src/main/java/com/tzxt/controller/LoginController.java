@@ -78,9 +78,9 @@ public class LoginController {
         if (user == null) {
             throw new RestException(HttpStatus.FORBIDDEN, "用户登录已过期，请重新登录");
         }
-        if (!user.getPassword().equals(MD5.encode(password))) {
-            throw new RestException(HttpStatus.FORBIDDEN, "密码错误");
-        }
+//        if (!user.getPassword().equals(MD5.encode(password))) {
+ //           throw new RestException(HttpStatus.FORBIDDEN, "密码错误");
+//        }
 
         // 重定向到主页
         return AccountType.ADMIN.getValue().equals(user.getAccountType()) ? "redirect:/home" : "redirect:/ordinaryHome";

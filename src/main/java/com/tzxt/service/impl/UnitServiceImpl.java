@@ -34,4 +34,14 @@ public class UnitServiceImpl implements UnitService {
             return Response.fail("查询所有单位失败");
         }
     }
+
+    @Override
+    public Response<Unit> findById(Long id) {
+        try {
+            return Response.ok(unitMapper.selectByPrimaryKey(id));
+        } catch (Exception e) {
+            logger.error("select all units failed. cause:{}", Throwables.getStackTraceAsString(e));
+            return Response.fail("查询所有单位失败");
+        }
+    }
 }
