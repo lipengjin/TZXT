@@ -93,11 +93,19 @@ public interface DBService {
     Response<List<Map<String, Object>>> selectPage(String sql);
 
     /**
-     *
+     * 向台账表 插入数据
      * @param ledger
      * @param ledgerDictionaries
      * @param data
      * @return
      */
     Response<Boolean> insertList(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, List<Map<String,Object>> data);
+
+    /**
+     * 删除指定的台账表
+     *
+     * @param ledger
+     * @return
+     */
+    Response<Boolean> dropTable(Ledger ledger);
 }

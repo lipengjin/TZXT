@@ -47,9 +47,10 @@
                             </div>
                         </div>
                     <#if ledgerPage??>
-                        <table class="table table-striped table-bordered table-advance table-hover">
+                        <table class="table table-striped table-bordered table-advance table-hover" id="ledgerManage">
                             <thead>
                             <tr>
+                                <th class="hidden">id</th>
                                 <th>
                                     <i class="fa fa-list"></i> 台账名
                                 </th>
@@ -79,6 +80,7 @@
                                 </#if>
                                 <#list ledgerPage.list as ledger>
                                 <tr>
+                                    <td class="hidden">${ledger.id}</td>
                                     <td>
                                     ${ledger.name}
                                     </td>
@@ -93,7 +95,7 @@
                                             <i class="icon-magnifier"></i> 查看 </a>
                                     </td>
                                     <td>
-                                        <a href="javascript:;" class="btn default btn-xs black">
+                                        <a href="javascript:;" class="btn default btn-xs black delete">
                                             <i class="fa fa-trash-o"></i> 删除 </a>
                                     </td>
                                 </tr>

@@ -50,7 +50,7 @@
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/form-editable.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/ledger-data-manage.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/custom/ledger-data-manage.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/components-pickers.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/ui-general.js" type="text/javascript"></script>
 <script>

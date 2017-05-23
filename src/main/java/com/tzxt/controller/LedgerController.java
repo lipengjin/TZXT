@@ -17,6 +17,7 @@ import com.tzxt.util.LedgerDataPageInfo;
 import com.tzxt.util.ResponseHelper;
 import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -226,23 +227,56 @@ public class LedgerController {
     }
 
     /**
+     * 检测表是否存在及是否有数据
+     *
+     * @param ledgerId
+     * @return
+     */
+    @GetMapping("/tableNotExist/{ledgerId}")
+    @ResponseBody
+    public Boolean tableNotExist(@PathVariable Long ledgerId) {
+
+        // 检测表是否存在
+        Ledger ledger = ResponseHelper.ajaxGetOrThrow(ledgerService.getById(ledgerId));
+        Boolean exist = ResponseHelper.ajaxGetOrThrow(dbService.exist(ledger.getTableName()));
+        if (!exist) {
+            return Boolean.TRUE;
+        }
+        // 检测表中是否有数据
+        List<LedgerDictionary> ledgerDictionaries = ResponseHelper.ajaxGetOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
+        Long count = ResponseHelper.ajaxGetOrThrow(dbService.count(null, ledger, ledgerDictionaries));
+        if (count > 0L) {
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+
+    }
+
+    /**
      * 删除 台账
      *
      * @param ledgerId
      * @return
      */
-    @PutMapping("/delete/{ledgerId}")
-    public ModelAndView delete(@PathVariable Long ledgerId) {
+    @DeleteMapping("/delete/{ledgerId}")
+    @ResponseBody
+    public Boolean delete(@PathVariable Long ledgerId) {
 
         // 1. 权限检测
 
         // 2. 删除 表
+        Ledger ledger = ResponseHelper.ajaxGetOrThrow(ledgerService.getById(ledgerId));
+        Boolean exist = ResponseHelper.ajaxGetOrThrow(dbService.exist(ledger.getTableName()));
+        if (exist) {
+            ResponseHelper.ajaxGetOrThrow(dbService.dropTable(ledger));
+        }
 
         // 3. 删除 台账信息
-        ModelAndView result = new ModelAndView("");
-        result.addObject("currUser", CurrentUser.get());
+        ResponseHelper.ajaxGetOrThrow(ledgerService.deleteLedger(ledgerId));
+        ResponseHelper.ajaxGetOrThrow(ledgerDictionaryService.deleteByLedgerId(ledgerId));
 
-        return result;
+        return Boolean.TRUE;
     }
 
 

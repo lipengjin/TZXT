@@ -227,6 +227,23 @@ public class DBServiceImpl implements DBService {
         }
     }
 
+    /**
+     * 删除指定的台账表
+     *
+     * @param ledger
+     * @return
+     */
+    @Override
+    public Response<Boolean> dropTable(Ledger ledger) {
+        try {
+            ddlMapper.drop(ledger.getTableName());
+            return Response.ok(Boolean.TRUE);
+        } catch (Exception e) {
+            logger.error("drop table failed. ledger:{}, cause:{}", ledger, Throwables.getStackTraceAsString(e));
+            return Response.fail("删除表失败");
+        }
+    }
+
     private LedgerDataSet assemblyLedgerData(List<LedgerDictionary> ledgerDictionaries, Map map, Long ledgerDataId) {
         LedgerDataSet ledgerDataSet = new LedgerDataSet();
         List<LedgerData> ledgerData = Lists.newArrayList();

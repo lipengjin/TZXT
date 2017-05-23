@@ -48,7 +48,7 @@
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/index3.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/tasks.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/time.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/custom/time.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
     jQuery(document).ready(function () {
