@@ -38,16 +38,15 @@ public class Worker implements Runnable {
         this.dbService = dbService;
     }
 
-    private boolean exist = true;
 
-    private int pageSize = 100;
-
-    private int pageNo = 0;
 
     @Override
     public void run() {
         try {
 
+            int pageSize = 100;
+            int pageNo = 0;
+            boolean exist = true;
             while (exist) {
                 String sql = SQLUtil.selectPage(++pageNo, pageSize, ledger, ledgerDictionaries);
                 List<Map<String, Object>> data = ResponseHelper.getOrThrow(dbService.selectPage(sql));

@@ -218,6 +218,9 @@ public class DBServiceImpl implements DBService {
     @Override
     public Response<Boolean> insertList(Ledger ledger, List<LedgerDictionary> ledgerDictionaries, List<Map<String, Object>> data) {
         try {
+            if (data.size() <= 0) {
+                return Response.ok(Boolean.TRUE);
+            }
             String sql = SQLUtil.insertList(ledger, ledgerDictionaries, data);
             ddlMapper.insertList(sql);
             return Response.ok(Boolean.TRUE);

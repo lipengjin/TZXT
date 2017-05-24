@@ -75,10 +75,13 @@ public class SQLUtil {
     }
 
     private static String VALUES(List<String> ledgerFields, Map<String, Object> data) {
-        List<String> vals = Lists.newArrayList();
-        ledgerFields.forEach(field -> vals.add(data.containsKey(field) ? data.get(field).toString() : ""));
+//        List<String> vals = Lists.newArrayList();
+//        ledgerFields.forEach(field -> vals.add(data.containsKey(field) ? data.get(field).toString() : ""));
         StringBuilder sb = new StringBuilder();
         ledgerFields.forEach(f -> {
+            System.out.println(data.get(f).getClass());
+            if (data.get(f) instanceof Boolean)
+                data.put(f, Boolean.TRUE.equals(data.get(f)) ? 1 : 0);
             sb.append("'").append(data.getOrDefault(f, "")).append("',");
         });
         String sql = sb.toString();
