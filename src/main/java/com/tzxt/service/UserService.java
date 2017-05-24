@@ -4,6 +4,8 @@ import com.tzxt.dto.LoginUser;
 import com.tzxt.model.User;
 import com.tzxt.util.Response;
 
+import java.util.List;
+
 /**
  * @since 2016-01-31 21:42
  */
@@ -22,4 +24,6 @@ public interface UserService {
      * @return
      */
     Response<User> getById(Long userId);
+
+    Response<List<User>> getAll();
 }
