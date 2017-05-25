@@ -31,4 +31,9 @@ public class RoleServiceImpl implements RoleService {
     public Response<List<Role>> getAll() {
         return Response.ok(roleMapper.selectAll());
     }
+
+    @Override
+    public Response<Integer> insert(Role role) {
+        return Response.ok(roleMapper.insert(role));
+    }
 }

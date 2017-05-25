@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,9 +91,9 @@ public class UserController {
        user.setUnit(unitService.findById(unitId).getData().getName());
        user.setAccountType(1);
        user.setLocked(false);
-       user.setCreateAt(new Date());
-       user.setUpdateAt(new Date());
-       userService.insert(user);
+       user.setUpdateAt(new Date());       user.setCreateAt(new Date());
+
+        userService.insert(user);
         ModelAndView result = new ModelAndView("redirect:/users/manage");
         return result;
     }
@@ -161,8 +162,6 @@ public class UserController {
         return result;
 
 
-
-
     }
 
 
@@ -197,15 +196,32 @@ public class UserController {
         modelAndView.setViewName("/roleManage/roleAuth");
         return  modelAndView;
     }
+    @GetMapping(value = "/get-tables")
+    public ModelAndView getTables(){
 
+        List<Ledger> ledgers = ledgerService.selectAll().getData();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("ledgers",ledgers);
+        modelAndView.setViewName("/roleManage/select_auth");
+        return  modelAndView;
+    }
 
     @PostMapping(value = "/add-role")
-    public ModelAndView addRoleAuths(String userName,List<Integer> ids) {
-
-        for (Integer id:ids){
+    public ModelAndView addRoleAuths(String userName, HttpServletRequest httpServletRequest) {
+       String[] ids= httpServletRequest.getParameterValues("ids");
+        for (String id:ids){
             RoleAuths roleAuths =new RoleAuths();
             roleAuths.setAuth(userName);
             roleAuths.setId(Long.valueOf(id));
+            roleAuths.setCreateAt(new Date());
+            roleAuths.setUpdateAt(new Date());
+
+            Role role = new Role();
+            role.setName(userName);
+            role.setCreateAt(new Date());
+            role.setUpdateAt(new Date());
+            Integer roleId = roleService.insert(role).getData();
+            roleAuths.setRoleId(Long.valueOf(roleId));
             roleAuthService.insert(roleAuths);
         }
         ModelAndView modelAndView = new ModelAndView();

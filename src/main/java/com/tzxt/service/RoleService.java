@@ -12,4 +12,6 @@ public interface RoleService {
     public Response<Role> findById(Long id);
 
     public Response<List<Role>> getAll();
+
+    public Response<Integer> insert(Role role);
 }
