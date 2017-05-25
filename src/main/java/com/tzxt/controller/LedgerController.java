@@ -363,6 +363,7 @@ public class LedgerController {
         result.addObject("ledger", ledger);
         result.addObject("ledgerDictionaries", ledgerDictionaries);
         result.addObject("units", units);
+        result.addObject("queryParam", new QueryParam(unit, mouth));
         result.addObject("ledgerDataPageInfo", new LedgerDataPageInfo(ledgerDataSets, pageNo, pageSize, total));
 
         return result;
@@ -378,7 +379,7 @@ public class LedgerController {
     public ModelAndView checkLedger(@PathVariable Long ledgerId, QueryParam queryParam) {
         // 1. 权限检测
 
-        queryParam.setUnit(queryParam.getUnit() != null || !"".equals(queryParam.getUnit()) ? queryParam.getUnit() : null);
+        queryParam.setUnit(queryParam.getUnit() != null || !"0".equals(queryParam.getUnit()) || !"".equals(queryParam.getUnit()) ? queryParam.getUnit() : null);
         // 2. 返回 模型视图
         List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));

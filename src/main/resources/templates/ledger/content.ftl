@@ -32,7 +32,7 @@
                                                 <div class="col-md-4">
                                                     <select class="form-control select2_category" id="unit_select"
                                                             name="unit">
-                                                        <option value="0">请选择单位</option>
+                                                        <option value="">请选择单位</option>
                                                         <#if units??>
                                                             <#list units as unit>
                                                                 <#if queryParam?? && queryParam.unit??>
@@ -63,7 +63,7 @@
                                                          data-date-viewmode="years" data-date-minviewmode="months">
                                                         <input type="text" class="form-control" id="mouth_select"
                                                                name="mouth"
-                                                               value="<#if queryParam??>${queryParam.mouth}</#if>"
+                                                               value="<#if queryParam?? && queryParam.mouth??>${queryParam.mouth}</#if>"
                                                                readonly>
                                                         <span class="input-group-btn">
 												            <button class="btn default" type="button"><i
@@ -93,7 +93,7 @@
                                                     保存为PDF </a>
                                             </li>
                                             <li>
-                                                <a href="${request.contextPath}/excel/export/${ledger.id}<#if queryParam?? && queryParam.unit??>?unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">
+                                                <a href="${request.contextPath}/excel/export/${ledger.id}<#if queryParam?? && queryParam.unit??>?unit=${queryParam.unit}</#if><#if queryParam?? && queryParam.mouth??>&mouth=${queryParam.mouth}</#if>">
                                                     导出到Excel </a>
                                             </li>
                                         </ul>
@@ -154,10 +154,10 @@
                                     <ul class="pagination">
                                         <#if ledgerDataPageInfo.hasPreviousPage>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=1&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">首页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=1&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}</#if><#if queryParam?? && queryParam.mouth??>&mouth=${queryParam.mouth}</#if>">首页</a>
                                             </li>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.prePage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">前一页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.prePage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}</#if><#if queryParam?? && queryParam.mouth??>&mouth=${queryParam.mouth}</#if>">前一页</a>
                                             </li>
                                         </#if>
                                         <#if !ledgerDataPageInfo.hasPreviousPage>
@@ -176,16 +176,16 @@
                                             </#if>
                                             <#if nav != ledgerDataPageInfo.pageNum>
                                                 <li>
-                                                    <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${nav}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">${nav}</a>
+                                                    <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${nav}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}</#if><#if queryParam?? && queryParam.mouth??>&mouth=${queryParam.mouth}</#if>">${nav}</a>
                                                 </li>
                                             </#if>
                                         </#list>
                                         <#if ledgerDataPageInfo.hasNextPage>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.nextPage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">下一页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.nextPage}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}</#if><#if queryParam?? && queryParam.mouth??>&mouth=${queryParam.mouth}</#if>">下一页</a>
                                             </li>
                                             <li>
-                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.pages}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}&mouth=${queryParam.mouth}</#if>">尾页</a>
+                                                <a href="${request.contextPath}/ledger/check/${ledger.id}?pageNo=${ledgerDataPageInfo.pages}&pageSize=${ledgerDataPageInfo.pageSize}<#if queryParam?? && queryParam.unit??>&unit=${queryParam.unit}</#if><#if queryParam?? && queryParam.mouth??>&mouth=${queryParam.mouth}</#if>">尾页</a>
                                             </li>
                                         </#if>
                                         <#if !ledgerDataPageInfo.hasNextPage>
