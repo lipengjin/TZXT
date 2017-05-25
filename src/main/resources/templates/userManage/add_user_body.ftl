@@ -6,7 +6,7 @@
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
 <#include "../components/sider.ftl" />
-    <#include "content.ftl" />
+    <#include "add_user_content.ftl" />
 </div>
 <!-- END CONTAINER -->
 <#include "../components/footer.ftl" />

@@ -84,5 +84,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Response<Boolean> insert(User user) {
+        return Response.ok(userMapper.insert(user));
+    }
+
 
 }

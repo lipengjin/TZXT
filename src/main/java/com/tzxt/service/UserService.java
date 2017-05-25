@@ -26,4 +26,6 @@ public interface UserService {
     Response<User> getById(Long userId);
 
     Response<List<User>> getAll();
+
+    Response<Boolean> insert(User user);
 }
