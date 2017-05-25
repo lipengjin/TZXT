@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,8 +84,33 @@ public class UserController {
 
     @PostMapping(value = "/create")
     public ModelAndView createUser(User user) {
+       Long roleId= user.getRoleId();
+       user.setRole(roleService.findById(roleId).getData().getName());
+       Long unitId =user.getUnitId();
+       user.setUnit(unitService.findById(unitId).getData().getName());
+       user.setAccountType(1);
+       user.setLocked(false);
+       user.setCreateAt(new Date());
+       user.setUpdateAt(new Date());
+       userService.insert(user);
+        ModelAndView result = new ModelAndView("redirect:/users/manage");
+        return result;
+    }
 
-        return null;
+    @GetMapping(value = "/add-user")
+    public ModelAndView addUser() {
+        UnitAndRoleAndAuthDto unitAndRoleAndAuthDto =new UnitAndRoleAndAuthDto();
+
+        List<Role> roles = roleService.getAll().getData();
+        List<Unit> units = unitService.selectAll().getData();
+        List<RoleAuths> roleAuths = roleAuthService.getAll().getData();
+        unitAndRoleAndAuthDto.setRoleAuths(roleAuths);
+        unitAndRoleAndAuthDto.setRoles(roles);
+        unitAndRoleAndAuthDto.setUnits(units);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("unitAndRoleAndAuthDto",unitAndRoleAndAuthDto);
+        modelAndView.setViewName("/userManage/add_user");
+        return modelAndView;
     }
 
     /**

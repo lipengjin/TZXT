@@ -27,7 +27,7 @@
                             角色管理</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);">
+                        <a href="${request.contextPath}/users/manage">
                             <i class="icon-tag"></i>
                             用户管理</a>
                     </li>
