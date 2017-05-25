@@ -22,7 +22,7 @@
                             菜单管理</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);">
+                        <a href="${request.contextPath}/role/manage">
                             <i class="icon-basket"></i>
                             角色管理</a>
                     </li>
