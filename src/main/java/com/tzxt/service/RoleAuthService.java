@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface RoleAuthService {
 
-    public Response<List<RoleAuths>> getAll();
+    Response<List<RoleAuths>> getAll();
 
-    public Boolean insert(RoleAuths roleAuths);
+    Boolean insert(RoleAuths roleAuths);
 }

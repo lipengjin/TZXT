@@ -77,10 +77,10 @@
                                         <select class="form-control select2_category" id="auth_select"
                                                 name="auth">
                                             <option value="0">请选择权限</option>
-                                        <#if unitAndRoleAndAuthDto.roleAuths??>
-                                            <#list unitAndRoleAndAuthDto.roleAuths as roleAuth>
-                                                <option value="${roleAuth.id}">
-                                                ${roleAuth.auth}
+                                        <#if unitAndRoleAndAuthDto.userAuths??>
+                                            <#list unitAndRoleAndAuthDto.userAuths as userAuth>
+                                                <option value="${userAuth.id}">
+                                                ${userAuth.auth}
                                                 </option>
                                             </#list>
                                         </#if>

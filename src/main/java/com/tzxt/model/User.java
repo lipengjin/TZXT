@@ -25,12 +25,14 @@
 package com.tzxt.model;
 
 import lombok.Data;
+import org.assertj.core.util.Lists;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户信息
@@ -80,7 +82,7 @@ public class User {
     private Date createAt;
     private Date updateAt;
 
-    enum Auth {
+    public enum Auth {
         SELECT(1, "数据查询"), LOAD(2, "数据录入");
 
         private Integer value;
@@ -97,6 +99,27 @@ public class User {
 
         public String getDisplay() {
             return display;
+        }
+
+        public static Auth fromValue(Integer auth) {
+            if (auth == null) {
+                return null;
+            }
+            for (Auth auth1 : Auth.values()) {
+                if (auth1.getValue().equals(auth)) {
+
+                    return auth1;
+                }
+            }
+            return null;
+        }
+
+        public static List<UserAuth> authList() {
+            List<UserAuth> authList = Lists.newArrayList();
+            for (Auth auth1 : Auth.values()) {
+                authList.add(UserAuth.builder().id(Long.valueOf(auth1.getValue())).auth(auth1.getDisplay()).build());
+            }
+            return authList;
         }
     }
 

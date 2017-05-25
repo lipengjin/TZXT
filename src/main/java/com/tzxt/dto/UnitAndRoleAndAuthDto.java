@@ -3,6 +3,7 @@ package com.tzxt.dto;
 import com.tzxt.model.Role;
 import com.tzxt.model.RoleAuths;
 import com.tzxt.model.Unit;
+import com.tzxt.model.UserAuth;
 import lombok.Data;
 
 import java.util.List;
@@ -17,6 +18,6 @@ public class UnitAndRoleAndAuthDto {
 
     private List<Unit> units;
 
-    private List<RoleAuths>roleAuths;
+    private List<UserAuth> userAuths;
 
 }
