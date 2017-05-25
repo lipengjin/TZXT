@@ -79,7 +79,7 @@ public class SQLUtil {
 //        ledgerFields.forEach(field -> vals.add(data.containsKey(field) ? data.get(field).toString() : ""));
         StringBuilder sb = new StringBuilder();
         ledgerFields.forEach(f -> {
-            System.out.println(data.get(f).getClass());
+//            System.out.println(data.getOrDefault(f, "").getClass());
             if (data.get(f) instanceof Boolean)
                 data.put(f, Boolean.TRUE.equals(data.get(f)) ? 1 : 0);
             sb.append("'").append(data.getOrDefault(f, "")).append("',");
@@ -204,6 +204,9 @@ public class SQLUtil {
             UPDATE(ledger.getTableName());
             ledgerDictionaries.forEach(ld -> {
                 if (data.containsKey(ld.getSourceField()) && data.get(ld.getSourceField()) != null && !"".equals(data.get(ld.getSourceField()))) {
+                    if ("true".equals(data.get(ld.getSourceField()).toString().toLowerCase()) ||
+                            "false".equals(data.get(ld.getSourceField()).toString().toLowerCase()))
+                        data.put(ld.getSourceField(), "true".equals(data.get(ld.getSourceField()).toString().toLowerCase()) ? 1 : 0);
                     SET("`" + ld.getSourceField() + "`='" + data.get(ld.getSourceField()) + "'");
                 }
             });
