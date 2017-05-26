@@ -3,10 +3,12 @@ package com.tzxt.controller;
 import com.tzxt.dto.LoginUser;
 import com.tzxt.exception.RestException;
 import com.tzxt.model.User;
+import com.tzxt.service.RoleAuthService;
 import com.tzxt.service.UserService;
 import com.tzxt.util.AccountType;
 import com.tzxt.util.Constants;
 import com.tzxt.util.CurrentUser;
+import com.tzxt.util.JsonMapper;
 import com.tzxt.util.MD5;
 import com.tzxt.util.ResponseHelper;
 import org.springframework.http.HttpStatus;
@@ -28,9 +30,12 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final UserService userService;
+    private final RoleAuthService roleAuthService;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService,
+                           RoleAuthService roleAuthService) {
         this.userService = userService;
+        this.roleAuthService = roleAuthService;
     }
 
     @GetMapping(value = "/lock")
@@ -60,6 +65,7 @@ public class LoginController {
         // 写入 session
         HttpSession session = request.getSession();
         session.setAttribute(Constants.SESSION_USER_ID, user.getId().toString());
+        session.setAttribute(Constants.SESSION_AUTHS, JsonMapper.JSON_NON_EMPTY_MAPPER.toJson(ResponseHelper.getOrThrow(roleAuthService.selectByRoleId(user.getRoleId()))));
 
         // 重定向到 主页
         return AccountType.ADMIN.getValue().equals(loginUser.getAccountType()) ? "redirect:/home" : "redirect:/ordinaryHome";
@@ -78,9 +84,9 @@ public class LoginController {
         if (user == null) {
             throw new RestException(HttpStatus.FORBIDDEN, "用户登录已过期，请重新登录");
         }
-//        if (!user.getPassword().equals(MD5.encode(password))) {
- //           throw new RestException(HttpStatus.FORBIDDEN, "密码错误");
-//        }
+        if (!user.getPassword().equals(MD5.encode(password))) {
+            throw new RestException(HttpStatus.FORBIDDEN, "密码错误");
+        }
 
         // 重定向到主页
         return AccountType.ADMIN.getValue().equals(user.getAccountType()) ? "redirect:/home" : "redirect:/ordinaryHome";

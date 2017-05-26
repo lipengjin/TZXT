@@ -14,4 +14,6 @@ public interface RoleService {
     Response<List<Role>> getAll();
 
     Response<Integer> insert(Role role);
+
+    Response<Boolean> deleteById(Long roleId);
 }

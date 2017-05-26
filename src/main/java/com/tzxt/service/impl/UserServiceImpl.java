@@ -47,9 +47,9 @@ public class UserServiceImpl implements UserService {
                 else
                     return Response.fail("您是普通用户，请切换到普通用户界面登录");
             }
- //           if (!user.getPassword().equals(MD5.encode(loginUser.getPassword()))) {
-            //              return Response.fail("用户密码错误");
-          //  }
+            if (!user.getPassword().equals(MD5.encode(loginUser.getPassword()))) {
+                          return Response.fail("用户密码错误");
+            }
             user.setPassword(null);
             return Response.ok(user);
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import com.tzxt.service.DBService;
 import com.tzxt.service.LedgerDictionaryService;
 import com.tzxt.service.LedgerService;
 import com.tzxt.util.ResponseHelper;
+import com.tzxt.util.SecurityHelper;
 import org.apache.tools.ant.taskdefs.condition.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,7 @@ public class DBController {
     public Boolean createLedger(@RequestParam Long ledgerId) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 查询 台账 元数据
         Ledger ledger = ResponseHelper.ajaxGetOrThrow((ledgerService.getById(ledgerId)));
         List<LedgerDictionary> ledgerDictionaries = ResponseHelper.ajaxGetOrThrow(ledgerDictionaryService.selectByLedgerId(ledgerId));
@@ -82,7 +83,7 @@ public class DBController {
                             @RequestParam(required = false) String end) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 对比检测 这里的时间区间与 表中的时间区间 以及 拉取数据状态
         checkLedger(ledgerId, start, end);
 

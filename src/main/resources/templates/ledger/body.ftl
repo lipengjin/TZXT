@@ -31,7 +31,6 @@
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <script type="text/javascript" src="${request.contextPath}/static/js/select2.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/static/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript" src="${request.contextPath}/static/js/clockface.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>

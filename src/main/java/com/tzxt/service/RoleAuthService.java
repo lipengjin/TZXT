@@ -10,7 +10,9 @@ import java.util.List;
  */
 public interface RoleAuthService {
 
-    Response<List<RoleAuths>> getAll();
+    Response<Boolean> insertAll(List<RoleAuths> roleAuths);
 
-    Boolean insert(RoleAuths roleAuths);
+    Response<List<RoleAuths>> selectByRoleId(Long roleId);
+
+    Response<Boolean> deleteByRoleId(Long roleId);
 }

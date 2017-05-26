@@ -39,7 +39,9 @@ import com.tzxt.service.UnitService;
 import com.tzxt.service.UserService;
 import com.tzxt.util.AccountType;
 import com.tzxt.util.CurrentUser;
+import com.tzxt.util.MD5;
 import com.tzxt.util.ResponseHelper;
+import com.tzxt.util.SecurityHelper;
 import org.assertj.core.util.Lists;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,14 +70,14 @@ public class UserController {
 
     private final RoleService roleService;
 
-    private final RoleAuthService roleAuthService;
-
-    public UserController(LedgerService ledgerService, UnitService unitService, UserService userService, RoleService roleService, RoleAuthService roleAuthService) {
+    public UserController(LedgerService ledgerService,
+                          UnitService unitService,
+                          UserService userService,
+                          RoleService roleService) {
         this.ledgerService = ledgerService;
         this.unitService = unitService;
         this.userService = userService;
         this.roleService = roleService;
-        this.roleAuthService = roleAuthService;
     }
 
     @PostMapping(value = "/register")
@@ -87,11 +89,14 @@ public class UserController {
 
     @PostMapping(value = "/create")
     public ModelAndView createUser(User user) {
+        SecurityHelper.chechAdmin();
+
         Long roleId = user.getRoleId();
         user.setRole(roleService.findById(roleId).getData().getName());
         Long unitId = user.getUnitId();
         user.setUnit(unitService.findById(unitId).getData().getName());
-        user.setAccountType(1);
+        user.setAccountType(2);
+        user.setPassword(MD5.encode(user.getPassword()));
         user.setLocked(false);
         user.setUpdateAt(new Date());
         user.setCreateAt(new Date());
@@ -104,6 +109,8 @@ public class UserController {
 
     @GetMapping(value = "/add-user")
     public ModelAndView addUser() {
+        SecurityHelper.chechAdmin();
+
         UnitAndRoleAndAuthDto unitAndRoleAndAuthDto = new UnitAndRoleAndAuthDto();
 
         List<Role> roles = roleService.getAll().getData();
@@ -144,6 +151,7 @@ public class UserController {
 
     @GetMapping(value = "/manage")
     public ModelAndView userManage() {
+        SecurityHelper.chechAdmin();
 
         List<User> users = userService.getAll().getData();
         List<UserManageDto> userManageDtos = new ArrayList<>();
@@ -164,50 +172,6 @@ public class UserController {
         result.setViewName("/userManage/user_manage");
         result.addObject("currUser", CurrentUser.get());
         return result;
-    }
-
-    @GetMapping(value = "/get-all-role-auth")
-    public ModelAndView getAllRoleAuths() {
-
-        List<RoleAuths> roleAuths = roleAuthService.getAll().getData();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("userAuths", roleAuths);
-        modelAndView.setViewName("/roleManage/roleAuth");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/get-tables")
-    public ModelAndView getTables() {
-
-        List<Ledger> ledgers = ledgerService.selectAll().getData();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("ledgers", ledgers);
-        modelAndView.setViewName("/roleManage/select_auth");
-        return modelAndView;
-    }
-
-    @PostMapping(value = "/add-role")
-    public ModelAndView addRoleAuths(String userName, HttpServletRequest httpServletRequest) {
-        String[] ids = httpServletRequest.getParameterValues("ids");
-        for (String id : ids) {
-            RoleAuths roleAuths = new RoleAuths();
-            roleAuths.setAuth(userName);
-            roleAuths.setId(Long.valueOf(id));
-            roleAuths.setCreateAt(new Date());
-            roleAuths.setUpdateAt(new Date());
-
-            Role role = new Role();
-            role.setName(userName);
-            role.setCreateAt(new Date());
-            role.setUpdateAt(new Date());
-            Integer roleId = roleService.insert(role).getData();
-            roleAuths.setRoleId(Long.valueOf(roleId));
-            roleAuthService.insert(roleAuths);
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("messsage", "添加成功！");
-        modelAndView.setViewName("/roleManage/roleAuth");
-        return modelAndView;
     }
 
 }

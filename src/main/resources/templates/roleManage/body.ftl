@@ -37,21 +37,11 @@
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/components-pickers.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/form-samples.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
         Metronic.init(); // init metronic core components
         Layout.init(); // init current layout
         Demo.init(); // init demo features
-        ComponentsPickers.init();
-        FormSamples.init();
-        $('#clearQueryParamBtn').click(function (e) {
-            e.preventDefault();
-
-            $('#mouth_select').val("");
-
-        });
     });
 </script>
 </body>

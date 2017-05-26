@@ -19,7 +19,6 @@
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/static/css/bootstrap-timepicker.min.css"/>
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/static/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/static/css/bootstrap-editable.css"/>
-    <link rel="stylesheet" type="text/css" href="${request.contextPath}/static/css/address.css"/>
     <!-- END PLUGINS USED BY X-EDITABLE -->
     <!-- BEGIN THEME STYLES -->
     <link href="${request.contextPath}/static/css/components-rounded.css" id="style_components" rel="stylesheet" type="text/css"/>

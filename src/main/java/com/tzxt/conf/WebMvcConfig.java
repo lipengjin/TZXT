@@ -24,6 +24,7 @@
 
 package com.tzxt.conf;
 
+import com.tzxt.interceptor.AuthInterceptor;
 import com.tzxt.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -58,6 +59,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         registry.addInterceptor(applicationContext.getBean(LoginInterceptor.class)).addPathPatterns("/**");
+        registry.addInterceptor(applicationContext.getBean(AuthInterceptor.class)).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 }

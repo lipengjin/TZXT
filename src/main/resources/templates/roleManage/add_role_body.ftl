@@ -5,16 +5,16 @@
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <#include "../components/ordinary_sider.ftl" />
-    <#include "content.ftl" />
+<#include "../components/sider.ftl" />
+    <#include "add_role_content.ftl" />
 </div>
 <!-- END CONTAINER -->
 <#include "../components/footer.ftl" />
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
 <!--[if lt IE 9]>
-<script src="${request.contextPath}/static/js/respond.min.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/excanvas.min.js" type="text/javascript"></script>
+<script src="${request.contextPath}/static/js/respond.min.js"></script>
+<script src="${request.contextPath}/static/js/excanvas.min.js"></script>
 <![endif]-->
 <script src="${request.contextPath}/static/js/jquery.min.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/jquery-migrate.min.js" type="text/javascript"></script>
@@ -28,22 +28,21 @@
 <script src="${request.contextPath}/static/js/jquery.uniform.min.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="${request.contextPath}/static/js/select2.min.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/quick-sidebar.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/custom/time.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL SCRIPTS -->
+<script src="${request.contextPath}/static/js/form-samples.js" type="text/javascript"></script>
 <script>
     jQuery(document).ready(function () {
-        Metronic.init(); // init metronic core componets
-        Layout.init(); // init layout
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
         Demo.init(); // init demo features
-        QuickSidebar.init(); // init quick sidebar
-        ShowTime.initTime();
+        FormSamples.init();
     });
 </script>
-<!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

@@ -41,7 +41,7 @@ public class RoleAuths {
     /**
      * 如果是 数据权限 此字段表示 台账 ID，否则 为null
      */
-    private Integer ledgerId;
+    private Long ledgerId;
 
     enum AuthType{
         OPERATION, DATA

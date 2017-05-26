@@ -15,9 +15,6 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
     <link href="${request.contextPath}/static/css/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
-    <link href="${request.contextPath}/static/css/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
-    <link href="${request.contextPath}/static/css/jqvmap.css" rel="stylesheet" type="text/css"/>
-    <link href="${request.contextPath}/static/css/morris.css" rel="stylesheet" type="text/css">
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN PAGE STYLES -->
     <link href="${request.contextPath}/static/css/tasks.css" rel="stylesheet" type="text/css"/>

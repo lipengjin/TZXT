@@ -28,26 +28,11 @@
 <script src="${request.contextPath}/static/js/jquery.uniform.min.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="${request.contextPath}/static/js/jquery.vmap.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.vmap.russia.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.vmap.world.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.vmap.europe.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.vmap.germany.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.vmap.usa.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.vmap.sampledata.js" type="text/javascript"></script>
-<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
-<script src="${request.contextPath}/static/js/morris.min.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/raphael-min.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/jquery.sparkline.min.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="${request.contextPath}/static/js/metronic.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/layout.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/quick-sidebar.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/js/demo.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/index3.js" type="text/javascript"></script>
-<script src="${request.contextPath}/static/js/tasks.js" type="text/javascript"></script>
 <script src="${request.contextPath}/static/custom/time.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
@@ -56,8 +41,6 @@
         Layout.init(); // init layout
         Demo.init(); // init demo features
         QuickSidebar.init(); // init quick sidebar
-        Index.init(); // init index page
-        Tasks.initDashboardWidget(); // init tash dashboard widget
         ShowTime.initTime();
     });
 </script>

@@ -11,4 +11,7 @@ public class Constants {
     public static String SESSION_USER_ID = "SESSION_USER_ID";
     public static String SESSION_USER_NAME = "SESSION_USER_NAME";
 
+
+    public static String SESSION_AUTHS = "SESSION_AUTHS";
+
 }

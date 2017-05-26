@@ -15,6 +15,7 @@ import com.tzxt.service.UnitService;
 import com.tzxt.util.CurrentUser;
 import com.tzxt.util.LedgerDataPageInfo;
 import com.tzxt.util.ResponseHelper;
+import com.tzxt.util.SecurityHelper;
 import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +63,7 @@ public class LedgerController {
                                 @RequestParam(required = false) String name) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 执行查询
         pageNo = pageNo == null ? 1 : pageNo;
         pageSize = pageSize == null ? 10 : pageSize;
@@ -81,7 +83,7 @@ public class LedgerController {
     @GetMapping("/create")
     public ModelAndView create() {
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 重定向 到新建页面
 
         // 3. 这里应该是 动态 获取 可选数据源表
@@ -104,7 +106,7 @@ public class LedgerController {
     @PostMapping("/save")
     public String save(LedgerDetail ledgerDetail) {
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 数据合法性检测
         checkLedgerDetail(ledgerDetail);
 
@@ -133,6 +135,7 @@ public class LedgerController {
      */
     @GetMapping("/detail/{ledgerId}")
     public ModelAndView detail(@PathVariable Long ledgerId) {
+        SecurityHelper.chechAdmin();
 
         LedgerDetail ledgerDetail = new LedgerDetail();
         ledgerDetail.setLedger(ResponseHelper.getOrThrow(ledgerService.getById(ledgerId)));
@@ -158,7 +161,7 @@ public class LedgerController {
                                     @PathVariable Long ledgerId) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 执行更新
         return ResponseHelper.getOrThrow(ledgerService.update(ledger(param, ledgerId)));
     }
@@ -184,7 +187,7 @@ public class LedgerController {
     public Boolean updateLedgerComment(UpdateParam param,
                                        @PathVariable Long ledgerId) {
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 执行更新
         return ResponseHelper.getOrThrow(ledgerService.update(ledger(param, ledgerId)));
 
@@ -199,7 +202,7 @@ public class LedgerController {
     @GetMapping("/updateLedgerDictionary/{ledgerDictionaryId}")
     public ModelAndView updateLedgerDictionary(@PathVariable Long ledgerDictionaryId) {
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         LedgerDictionary dictionary = ResponseHelper.getOrThrow(ledgerDictionaryService.selectById(ledgerDictionaryId));
 
         // 2. 重定向 到新建页面
@@ -219,7 +222,7 @@ public class LedgerController {
     public String saveUpdateLedgerDictionary(LedgerDictionary ledgerDictionary) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 更新
         ledgerDictionary.setUpdateAt(new Date());
         ResponseHelper.getOrThrow(ledgerDictionaryService.update(ledgerDictionary));
@@ -264,7 +267,7 @@ public class LedgerController {
     public Boolean delete(@PathVariable Long ledgerId) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. 删除 表
         Ledger ledger = ResponseHelper.ajaxGetOrThrow(ledgerService.getById(ledgerId));
         Boolean exist = ResponseHelper.ajaxGetOrThrow(dbService.exist(ledger.getTableName()));
@@ -291,8 +294,7 @@ public class LedgerController {
                                        @PathVariable Long ledgerDataId) {
 
         // 1. 权限检测
-        System.out.println(ledgerDataId);
-
+        SecurityHelper.chechAdmin();
         // 2. 返回模型视图
         List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());
         Ledger ledger = ResponseHelper.getOrThrow(ledgerService.getById(ledgerId));
@@ -321,7 +323,7 @@ public class LedgerController {
                                  LedgerDataSet ledgerDataSet) {
 
         // 1. 权限检测
-
+        SecurityHelper.chechAdmin();
         // 2. update
         System.out.println(ledgerId);
         System.out.println(ledgerDataSet);
@@ -343,10 +345,11 @@ public class LedgerController {
                                @RequestParam(required = false) Integer pageNo,
                                @RequestParam(required = false) Integer pageSize,
                                @RequestParam(required = false) String unit,
-                               @RequestParam(required = false) String mouth) {
+                               @RequestParam(required = false) String mouth,
+                               HttpServletRequest request) {
 
         // 1. 权限检测
-
+        SecurityHelper.checkPermission(ledgerId, request);
         pageNo = pageNo == null ? 1 : pageNo;
         pageSize = pageSize == null ? 10 : pageSize;
         // 2. 返回 模型视图
@@ -376,9 +379,9 @@ public class LedgerController {
      * @return
      */
     @PostMapping("/check/{ledgerId}")
-    public ModelAndView checkLedger(@PathVariable Long ledgerId, QueryParam queryParam) {
+    public ModelAndView checkLedger(@PathVariable Long ledgerId, QueryParam queryParam, HttpServletRequest request) {
         // 1. 权限检测
-
+        SecurityHelper.checkPermission(ledgerId, request);
         queryParam.setUnit(queryParam.getUnit() != null || !"0".equals(queryParam.getUnit()) || !"".equals(queryParam.getUnit()) ? queryParam.getUnit() : null);
         // 2. 返回 模型视图
         List<Ledger> ledgers = ResponseHelper.getOrThrow(ledgerService.selectAll());

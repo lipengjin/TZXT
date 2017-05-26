@@ -10,6 +10,11 @@ var FormSamples = function () {
 	            placeholder: "Select an option",
 	            allowClear: true
 	        });
+
+            $('.select2_sample1').select2({
+                placeholder: "Select a State",
+                allowClear: true
+            });
         }
 
     };
