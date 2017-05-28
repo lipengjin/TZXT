@@ -26,4 +26,9 @@ public class Application extends WebMvcConfigurerAdapter {
     String login() {
         return "redirect:login";
     }
+
+    @RequestMapping("/love")
+    String love() {
+        return "/love";
+    }
 }

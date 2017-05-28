@@ -9,9 +9,9 @@ logging:
         tk.mybatis: TRACE
 
 druid:
-    url: jdbc:mysql://120.24.59.27:3306/tzxt
+    url: jdbc:mysql://localhost:3306/tzxt
     username: root
-    password: Anywhere1!
+    password: anywhere
 
     initial-size: 1
     min-idle: 1
