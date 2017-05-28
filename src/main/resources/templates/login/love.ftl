@@ -4,16 +4,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>html5唯美爱情表白动画网页代码</title>
     <link href="${request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link type="text/css" rel="stylesheet" href="../static/loveyou/default.css">
-    <script type="text/javascript" src="../static/loveyou/jquery.min.js"></script>
-    <script type="text/javascript" src="../static/loveyou/jscex.min.js"></script>
-    <script type="text/javascript" src="../static/loveyou/jscex-parser.js"></script>
-    <script type="text/javascript" src="../static/loveyou/jscex-jit.js"></script>
-    <script type="text/javascript" src="../static/loveyou/jscex-builderbase.min.js"></script>
-    <script type="text/javascript" src="../static/loveyou/jscex-async.min.js"></script>
-    <script type="text/javascript" src="../static/loveyou/jscex-async-powerpack.min.js"></script>
-    <script type="text/javascript" src="../static/loveyou/functions.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../static/loveyou/love.js" charset="utf-8"></script>
+    <link type="text/css" rel="stylesheet" href="../../static/loveyou/default.css">
+    <script type="text/javascript" src="../../static/loveyou/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/jscex.min.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/jscex-parser.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/jscex-jit.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/jscex-async.min.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="../../static/loveyou/functions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../static/loveyou/love.js" charset="utf-8"></script>
     <style type="text/css">
         <!--
         .STYLE1 {
