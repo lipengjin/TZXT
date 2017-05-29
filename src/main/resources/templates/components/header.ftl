@@ -52,11 +52,11 @@
                                 <a href="${request.contextPath}/users/profile">
                                     <i class="icon-user"></i> 我的信息 </a>
                             </li>
-                            <li>
-                                <a href="${request.contextPath}/love">
-                                    终于看见了吗 <i class="icon-heart"></i>
-                                </a>
-                            </li>
+                            <#--<li>-->
+                                <#--<a href="${request.contextPath}/love">-->
+                                    <#--终于看见了吗 <i class="icon-heart"></i>-->
+                                <#--</a>-->
+                            <#--</li>-->
                             <li class="divider">
                             </li>
                             <li>
