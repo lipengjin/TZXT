@@ -22,7 +22,7 @@ spring:
     redis:
         host: 120.24.59.27
         #password:  #/可能没有密码/
-        port: 6379
+        port: 7379
     mvc:
         view:
             prefix: /templates/
