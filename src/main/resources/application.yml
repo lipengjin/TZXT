@@ -1,8 +1,8 @@
 server:
     port: 9090
     context-path:
-    session:
-      timeout: 18000 #/liuzh/
+#    session:
+#      timeout: 18000 #/liuzh/
 
 logging:
     level:
@@ -19,10 +19,10 @@ druid:
     test-on-borrow: true
 
 spring:
-    redis:
-        host: 120.24.59.27
-        #password:  #/可能没有密码/
-        port: 7379
+#    redis:
+#        host: 120.24.59.27
+#        #password:  #/可能没有密码/
+#        port: 7379
     mvc:
         view:
             prefix: /templates/
